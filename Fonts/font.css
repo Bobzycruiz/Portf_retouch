@@ -1,0 +1,11 @@
+@font-face {
+	font-family: 'futuraMediumBT';
+	src: url('./futuraMediumBT.eot');
+	src: local('futuraMediumBT'), url('./futuraMediumBT.woff') format('woff'), url('./futuraMediumBT.ttf') format('truetype');
+}
+/* use this class to attach this font to any element i.e. <p class="fontsforweb_fontid_61656">Text with this font applied</p> */
+.fontsforweb_fontid_61656 {
+	font-family: 'futuraMediumBT' !important;
+}
+
+/* Font downloaded from FontsForWeb.com */
