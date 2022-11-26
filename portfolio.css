@@ -912,17 +912,20 @@ form input:focus + i{
 
 
     .card{
-        height: 310px;
+        height: 320px;
         width: 62%;
         padding: 10px 22px;
     }
 
     h5{
         font-size: 23px;
-        margin-bottom: 18px;
+        margin-bottom: 15px;
     }
     .para_text p{
-        line-height: 21px;
+        line-height: 22px;
+    }
+    .card .button{
+        transform:scale(.95);
     }
 
     #title h2{
