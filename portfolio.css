@@ -880,7 +880,7 @@ form input:focus + i{
     } */
 
 }
-@media only screen and (max-width: 395px){
+@media only screen and (max-width:400px){
     .details h1{
         font-size: 20px;
     }
