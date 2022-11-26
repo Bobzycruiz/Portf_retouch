@@ -913,8 +913,8 @@ form input:focus + i{
 
     .card{
         height: 320px;
-        width: 62%;
-        padding: 10px 22px;
+        width: 65%;
+        padding: 10px 18px;
     }
 
     h5{
@@ -922,7 +922,7 @@ form input:focus + i{
         margin-bottom: 15px;
     }
     .para_text p{
-        line-height: 22px;
+        line-height: 23px;
     }
     .card .button{
         transform:scale(.95);
