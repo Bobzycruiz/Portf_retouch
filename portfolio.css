@@ -22,12 +22,12 @@
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    box-sizing: border-box;
 }
 body{
     background-color: #eff4fd;
     background-image:  repeating-radial-gradient( circle at 0 0, transparent 0, #eff4fd 150px ), repeating-linear-gradient( #b4b4b42a, #eff4fd );
-    overflow-x:hidden;   
+    overflow-x:hidden;  
+    box-sizing: border-box; 
 }
 
 
@@ -61,7 +61,7 @@ nav h1{
 nav ul li{
     display: inline-flex;
     list-style: none;
-    margin: 10px 18px;
+    margin: 10px 20px;
     text-transform: uppercase
 }
 nav ul li a#home{
@@ -73,7 +73,7 @@ nav ul li a{
     font-weight: bold;
     font-family: 'futuraMediumBT' !important;
     font-weight: 500;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
 }
 nav ul li a:hover {
 color: rgb(19, 112, 0);
@@ -354,6 +354,7 @@ h5{
     color: rgb(2, 15, 1);
     text-align: center;
     padding: 2%;
+    overflow-x: auto;
 }
 .overview .links ul{
     display: inline-flex;
@@ -584,9 +585,9 @@ form input:focus + i{
 }
 /* responsiveness */
 
-@media only screen and (max-width: 1024px){
+@media only screen and (max-width: 900px){
     nav{
-        max-width: calc(100% - 60px);
+        max-width: calc(100% - 70px);
         justify-items: center;
     }
     nav h1{
@@ -715,12 +716,6 @@ form input:focus + i{
     }
 
 
-
-
-
-
-
-
     .card{
         height: 300px;
         width: 50%;
@@ -738,11 +733,11 @@ form input:focus + i{
         margin-bottom: 18px;
     }
     .para_text p{
-        font-size: 15px;
+        font-size: 16px;
         line-height: 25px;
     }
     .card .button{
-        padding: 9px 18px;
+        padding: 9px 20px;
         border-radius: 20px;
         transition: 400ms;
     }
@@ -787,7 +782,7 @@ form input:focus + i{
     }
 
 }
-@media only screen and (max-width: 450px){
+@media only screen and (max-width: 480px){
     nav{
         max-width: calc(100% - 20px);
     }
@@ -829,16 +824,6 @@ form input:focus + i{
         padding: 5px;
     }
 
-
-
-    /* .service h2{
-        font-size: 25px;
-        color: white;
-    } */
- 
-    /* .footer ul{
-        flex-direction: column;
-    } */
     .title h2 {
         font-size: 30px;
     }
@@ -881,7 +866,16 @@ form input:focus + i{
     } */
 
 }
-@media only screen and (max-width:441px){
+@media only screen and (max-width: 440px){
+    .card{
+        height: 
+        330px;
+        padding: 2% 5%;
+        width: 60%;
+    }
+}
+
+@media only screen and (max-width:395px){
     .details h1{
         font-size: 20px;
     }
@@ -904,23 +898,14 @@ form input:focus + i{
     }
 
 
-
-
-
-
-
-
-
-
     .card{
-        height: 300px;
-        width: 60%;
-        padding: 10px 22px;
+        height: 320px;
+        padding: 10px 18px;
     }
 
     h5{
         font-size: 23px;
-        margin-bottom: 15px;
+        margin-bottom: 18px;
     }
     .para_text p{
         line-height: 24px;
@@ -971,6 +956,10 @@ form input:focus + i{
 @media only screen and (max-width: 320px){
     .con{
         transform: scale(.85);
+    }
+    .card{
+        width: 65%;
+        transform: scale(.95);
     }
 }
 
