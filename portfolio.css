@@ -583,7 +583,7 @@ form input:focus + i{
 }
 /* responsiveness */
 
-@media only screen and (max-width: 900px){
+@media only screen and (max-width: 1024px){
     nav{
         max-width: calc(100% - 60px);
         justify-items: center;
