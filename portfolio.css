@@ -912,7 +912,7 @@ form input:focus + i{
 
 
     .card{
-        height: 30px;
+        height: 300px;
         width: 60%;
         padding: 10px 22px;
     }
