@@ -585,7 +585,7 @@ form input:focus + i{
 
 @media only screen and (max-width: 900px){
     nav{
-        max-width: calc(100% - 70px);
+        max-width: calc(100% - 60px);
         justify-items: center;
     }
     nav h1{
@@ -737,11 +737,11 @@ form input:focus + i{
         margin-bottom: 18px;
     }
     .para_text p{
-        font-size: 16px;
+        font-size: 15px;
         line-height: 25px;
     }
     .card .button{
-        padding: 9px 20px;
+        padding: 9px 18px;
         border-radius: 20px;
         transition: 400ms;
     }
@@ -912,8 +912,8 @@ form input:focus + i{
 
 
     .card{
-        height: 300px;
-        width: 60%;
+        height: 310px;
+        width: 62%;
         padding: 10px 22px;
     }
 
