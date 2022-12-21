@@ -41,7 +41,7 @@ body{
 }
 nav{
     display: flex;
-    max-width: calc(100% - 200px);
+    max-width: calc(100% - 140px);
     height: 80px;
     margin: auto;
     padding: 1% 2%;
