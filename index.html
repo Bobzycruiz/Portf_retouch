@@ -1,233 +1,591 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="no-js">
 <head>
-    <link rel="stylesheet" href="/portfolio.css">
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
-  />
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,500;0,600;1,300;1,400&display=swap" rel="stylesheet">
-   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <style>
-        @font-face {
-    font-family: 'futuraMediumBT';
-    src: url('Fonts/futuraMediumBT.eot');
-    src: local('futuraMediumBT'), url('Fonts/futuraMediumBT.woff') format('woff'), url('Fonts/futuraMediumBT.ttf') format('truetype');
-}
-.fontsforweb_fontid_61656 {
-    font-family: 'futuraMediumBT' !important;
-}
-</style>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bobzycruiz_portfolio</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Bobola Alabi — Video Editor &amp; Motion Designer</title>
+  <meta name="description" content="Bobola Alabi is a video editor and motion designer crafting short-form content and motion graphics for gaming, crypto and tech brands — edits that have generated millions of views.">
+  <meta name="theme-color" content="#0b0a09">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Bobola Alabi — Video Editor &amp; Motion Designer">
+  <meta property="og:description" content="Short-form edits and motion graphics for gaming, crypto and tech brands.">
+  <meta property="og:url" content="https://bobzycruiz-portfweb.netlify.app/">
+  <meta property="og:image" content="https://bobzycruiz-portfweb.netlify.app/assets/img/og.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="preload" as="image" href="assets/img/hero-reel.jpg">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>document.documentElement.classList.replace("no-js", "js");</script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Bobola Alabi",
+    "jobTitle": "Video Editor & Motion Designer",
+    "url": "https://bobzycruiz-portfweb.netlify.app/",
+    "image": "https://bobzycruiz-portfweb.netlify.app/assets/img/bobola.jpg",
+    "email": "mailto:bobzycruiz2004@gmail.com",
+    "address": { "@type": "PostalAddress", "addressCountry": "NG" },
+    "sameAs": [
+      "https://www.linkedin.com/in/bobola-alabi-345b64447",
+      "https://www.tiktok.com/@bobzy_codm",
+      "https://www.instagram.com/bobzycruiz/",
+      "https://twitter.com/Bobzy_cruiz",
+      "https://github.com/Bobzycruiz"
+    ]
+  }
+  </script>
 </head>
 <body>
-    <div class="hero">
-        <nav>
-            <h1>Bobzycruiz</h1>
-            <ul class="links">
-                <li><a href="#" id="home">Home</a></li>
-                <li><a href="#srv">Services</a></li>
-                <!-- <li><a href="#">Explore</a></li> -->
-                <li><a href="#contact_me">Contact</a></li>
-                <li><a href="https://bobzys-blogpageforstrma-idgs.netlify.app/">My School Blog</a></li>
+  <!-- Aperture symbol: the site's signature mark -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="aperture" viewBox="0 0 200 200">
+        <g fill="currentColor" stroke="var(--bg)" stroke-width="5" stroke-linejoin="round">
+          <path d="M100.00 74.00L134.46 14.70A92 92 0 0 1 191.94 103.21L122.52 87.00Z"/>
+          <path d="M122.52 87.00L191.10 87.20A92 92 0 0 1 143.19 181.23L122.52 113.00Z"/>
+          <path d="M122.52 113.00L156.64 172.50A92 92 0 0 1 51.25 178.02L100.00 126.00Z"/>
+          <path d="M100.00 126.00L65.54 185.30A92 92 0 0 1 8.06 96.79L77.48 113.00Z"/>
+          <path d="M77.48 113.00L8.90 112.80A92 92 0 0 1 56.81 18.77L77.48 87.00Z"/>
+          <path d="M77.48 87.00L43.36 27.50A92 92 0 0 1 148.75 21.98L100.00 74.00Z"/>
+        </g>
+      </symbol>
+      <linearGradient id="blade" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#3a342e"/>
+        <stop offset=".55" stop-color="#16130f"/>
+        <stop offset="1" stop-color="#0b0a09"/>
+      </linearGradient>
+      <radialGradient id="iris" cx=".5" cy=".5" r=".5">
+        <stop offset="0" stop-color="#ffb56b"/>
+        <stop offset=".45" stop-color="#ff5a2c"/>
+        <stop offset="1" stop-color="#2a0b04"/>
+      </radialGradient>
+    </defs>
+  </svg>
 
-            </ul>
-            <ul class="icons">
-                <li><a href="#"><i class="fa fa-home"></i></a></li>
-                <li><a href="#srv"><i class="fa fa-cog"></i></a></li>
-                <!-- <li><a href="#"><i class="fa fa-archway"></i></a></li> -->
-                <li><a href="#Contact_me"><i class="fa fa-envelope"></i></a></li>
-                <li><a href="https://bobzys-blogpageforstrma-idgs.netlify.app/"><i class="fa fa-blog"></i></a></li>
-            </ul>
-        </nav>
-        <div class="details">
-            <h1>I'm Bobola <span>Emmanuel</span></h1>
-            <p>This is my official portfolio website to show you all the details about my work experience as a Fullstack Web Developer and a Graphic Designer.</p>
-            <a href="#">Download CV <i class="fa fa-download"></i></a>
-        </div>
-        <div class="images">
-            <img src="./images/imagebg1.png" class="shape">
-            <img src="./images/imagebg3.png" class="me">
-        </div>
+  <!-- Loader: the lens opens -->
+  <div class="loader" aria-hidden="true">
+    <svg class="loader__mark"><use href="#aperture"/></svg>
+  </div>
+
+  <a class="skip" href="#work">Skip to work</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="header">
+    <div class="header__inner">
+      <a href="#top" class="brand" aria-label="Bobola Alabi — back to top">
+        <svg class="brand__mark" aria-hidden="true"><use href="#aperture"/></svg>
+        <span class="brand__name">Bobola Alabi</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <span class="nav__pill" aria-hidden="true"></span>
+        <a href="#work">Work</a>
+        <a href="#services">Services</a>
+        <a href="#process">Process</a>
+        <a href="#about">About</a>
+      </nav>
+      <a href="#contact" class="btn btn--small header__cta" data-magnetic><span>Let’s talk</span></a>
+      <button class="menu-btn" aria-expanded="false" aria-controls="mobile-nav"><span>Menu</span></button>
     </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
+      <a href="#work"><span class="mono">01</span>Work</a>
+      <a href="#services"><span class="mono">02</span>Services</a>
+      <a href="#process"><span class="mono">03</span>Process</a>
+      <a href="#about"><span class="mono">04</span>About</a>
+      <a href="#contact"><span class="mono">05</span>Contact</a>
+    </nav>
+  </header>
 
-    <section class="service_sect" id="srv">
-        <div class="service">
-            <div class="title">
-                <h2>Our Services</h2>
+  <main>
+    <!-- ============ HERO — the lens opens on scroll ============ -->
+    <section class="hero" id="top">
+      <div class="hero__sticky">
+        <div class="hero__content">
+          <p class="eyebrow mono hero__in" style="--d:0">
+            <span class="rec" aria-hidden="true"></span>
+            Available for projects — Nigeria, working worldwide
+          </p>
+          <h1 class="hero__title">
+            <span class="line"><span class="hero__in" style="--d:1">Edits that</span></span>
+            <span class="line"><span class="hero__in" style="--d:2">stop the <em>scroll.</em></span></span>
+          </h1>
+          <div class="hero__foot hero__in" style="--d:3">
+            <p class="hero__lede">
+              I’m Bobola Alabi — a video editor and motion designer for gaming, crypto and tech brands.
+              My edits have generated <strong>millions of views</strong> across my clients’ channels.
+            </p>
+            <div class="hero__ctas">
+              <a href="#work" class="btn" data-magnetic><span>See the work</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v12M3 9l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a>
+              <a href="assets/Bobola_Alabi_Video_Editor_CV.pdf" class="btn btn--ghost" download data-magnetic><span>Download CV</span></a>
             </div>
-            <div class="box">
-                <div class="card">
-                    <i class="fas fa-user"></i>
-                    <h5>Web Designing</h5>
-                    <div class="para_text">
-                        <p>Every website should be built with two primary goals: firstly, it needs to work across all devices.
-                            Secondly, it needs to be fast as possible.
-                        </p>
-                        <p style="text-align:center;">
-                        <a href="#mywebsamples" class="button">Read more</a>
-                    </p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <i class="fas fa-palette"></i>
-                    <h5>Graphic Designing</h5>
-                    <div class="para_text">
-                        <p>We create visual text and imagery, also design creative content for online campaigns, print ads, banners, flyers, billboards, websites and videos.
-                        </p>
-                        <p style="text-align:center;">
-                        <a href="#mygraphicsamples" class="button">Read more</a>
-                    </p>
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
 
-        <div id="title">
-            <h2>Sample Overview</h2>
-        </div>
+        <figure class="lens hero__in" style="--d:2">
+          <div class="lens__glow" aria-hidden="true"></div>
+          <div class="lens__frame">
+            <video class="lens__video" src="assets/video/hero-reel.mp4" poster="assets/img/hero-reel.jpg" autoplay muted loop playsinline preload="auto" aria-label="Showreel: cuts from recent motion graphics and gaming edits"></video>
+            <figcaption class="lens__hud mono">
+              <span><span class="rec" aria-hidden="true"></span>Showreel 2026</span>
+              <span class="tc" id="timecode" aria-hidden="true">00:00:00:00</span>
+            </figcaption>
+          </div>
+        </figure>
 
-        <div class="overview">
-        <h2 id="mywebsamples">Web</h2>
-        <div class="rel_images">
-            <div class="imgbox" id="frontend">
-                <div class="dark">
-                    <h2>frontend</h2>
-                </div>
-            </div>
-
-            <div class="imgbox" id="backend">
-                <div class="dark">
-                    <h2>Backend</h2>
-                </div>
-            </div>
-
-            <div class="imgbox" id="uiux">
-                <div class="dark">
-                    <h2>UI/UX Designs</h2>
-                </div>
-            </div>
-
-            <div class="imgbox" id="webapps">
-                <div class="dark">
-                    <h2>Web Apps</h2>
-                </div>
-            </div>
-            <!-- <img src="../images/dunked-website.png" alt="webdev img">
-            <img src="../images/dunked-website.png" alt="webdev img">
-            <img src="../images/dunked-website.png" alt="webdev img">
-            <img src="../images/dunked-website.png" alt="webdev img"> -->
-        </div>
-       <div class="links"><h4>
-            Project links:</h4>
-            <ul>
-                <li><a href="https://com-spotifyweb-desig.netlify.app/">Spotifyclonewebest</a></li>
-          
-                <li><a href="#">netflixclonewebst</a></li>
-            </ul>
-        </h4></div>
-
-        <h2 id="mygraphicsamples">Designs</h2>
-        <div class="rel_images">
-            <div class="imgbox" id="Dlayout">
-                <div class="dark">
-                    <h2>Design layouts and Templates</h2>
-                </div>
-            </div>
-
-            <div class="imgbox" id="logo">
-                <div class="dark">
-                    <h2>Logos</h2>
-                </div>
-            </div>
-
-            <div class="imgbox" id="Bcard">
-                <div class="dark">
-                    <h2>Business Card</h2>
-                </div>
-            </div>
-
-            <div class="imgbox" id="flyers">
-                <div class="dark">
-                    <h2>Flyers, Billboards and Banners Designs</h2>
-                </div>
-            </div>
-            <!-- <img src="../images/dunked-website.png" alt="webdev img">
-            <img src="../images/dunked-website.png" alt="webdev img">
-            <img src="../images/dunked-website.png" alt="webdev img">
-            <img src="../images/dunked-website.png" alt="webdev img"> -->
-        </div>
-        <!-- </div>
-        <div class="contact_me">
-            <h2>Contact Me</h2>
-            <img src="../images/drawing-1.png" alt="">
-
-        </div> -->
-
-
-        <div class="con" id="contact_me">
-     <div class="container">
-        <form action="https://formsubmit.co/bobzycruiz2008@gmail.com" method="POST">
-            <h1>
-                Contact Us
-            </h1>
-            <div class="id">
-                <input type="text" name="Name" placeholder="Full Name" required>
-                <i class="fas fa-user"></i>
-            </div>
-            <div class="id">
-                <input type="email" name="Email" placeholder="Email Address" required>
-                <i class="fas fa-envelope"></i>
-            </div>
-            <textarea name="Message" cols="15" rows="5" placeholder="Message.." required></textarea>
-            <button type="submit">Send</button>.
-        </form>
-     </div>
-     
-    </div>
-    
+        <p class="hero__cue mono" aria-hidden="true"><span></span>Scroll to open the lens</p>
+      </div>
     </section>
 
+    <!-- ============ STATEMENT — lights up as you read ============ -->
+    <section class="statement wrap" aria-label="Introduction">
+      <p class="statement__text" data-words>
+        I cut short-form and build motion graphics for
+        <span class="pill" aria-hidden="true"><img src="assets/img/codm-the-boys.jpg" alt=""></span> gaming,
+        <span class="pill" aria-hidden="true"><img src="assets/img/xrp-2026-en.jpg" alt=""></span> crypto and
+        <span class="pill" aria-hidden="true"><img src="assets/img/subloop-promo.jpg" alt=""></span> tech brands —
+        paced for the first second, polished to the last frame, and delivered in English, Spanish and German.
+      </p>
+    </section>
 
+    <!-- ============ WORK ============ -->
+    <section class="work" id="work">
+      <header class="section-head wrap">
+        <p class="kicker mono" data-reveal><span>01</span>Selected work</p>
+        <h2 class="h2" data-split>Recent cuts, <em>frame by frame.</em></h2>
+        <p class="section-head__note" data-reveal>Hover to preview — tap or click to watch with sound.</p>
+      </header>
 
-
-
-
-
-
-
-
-    <div class="outro">
-        <h1>Bobzycruiz</h1>
-
-        <div class="icons" id="Contact_me">
-            <a href="https://www.instagram.com/bobzycruiz/" class="btn"> <i class="fab fa-instagram"></i></a>
-            <a href="https://twitter.com/Bobzy_cruiz?t=bIWBAbVlC6vsu8ayrhwJ3Q&s=09" class="btn"><i class="fab fa-twitter"></i></a>
-            <a href="https://www.facebook.com/bobzy.cruiz" class="btn"><i class="fab fa-facebook-f"></i></a>
-            <a href="https://api.whatsapp.com/send/?phone=7080582268&text&type=phone_number&app_absent=0" class="btn"><i class="fab fa-whatsapp"></i></a>
-            <a href="https://github.com/bobzycruiz/" class="btn"><i class="fab fa-git"></i></a>
+      <!-- Featured -->
+      <article class="feature wrap" data-video="assets/video/why-not-you.mp4" data-title="“Why Not You?” — Kinetic-type edit">
+        <div class="media media--4x3 feature__media" data-reveal="mask">
+          <button class="media__btn" aria-label="Play: Why Not You? kinetic-type edit">
+            <img src="assets/img/why-not-you.jpg" alt="“You can change your life” in bold type over a soldier running down a road" loading="lazy">
+            <span class="media__tc mono">00:23</span>
+            <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+          </button>
         </div>
-    </div>
-    <div class="footer">
-        <!-- <ul>
-            <li>Legal</li>
-            <li>Privacy center</li>
-            <li>Privacy Policy</li>
-            <li>Cookies</li>
-            <li>About Ads</li>
-        </ul> -->
-    
-        <div class="left_footer">
-            <p>🇳🇬️ Nigeria <br> 2022 Copyright&#169 by Bobzycruiz AB</p>
+        <div class="feature__panel" data-reveal data-speed="-0.06">
+          <p class="kicker mono"><span class="rec" aria-hidden="true"></span>Featured — personal favourite</p>
+          <h3 class="feature__title">“Why Not <em>You?</em>”</h3>
+          <p>
+            A motivational edit built on kinetic typography — every word landed on the voiceover,
+            a desaturated grade broken by hits of colour, and gameplay cut so the story reads even with the sound off.
+          </p>
+          <ul class="tags mono"><li>Kinetic type</li><li>Premiere Pro</li><li>After Effects</li><li>Grade</li></ul>
+          <button class="btn feature__cta" type="button" data-magnetic><span>Watch with sound</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></button>
         </div>
+      </article>
+
+      <!-- Motion graphics -->
+      <div class="chapter wrap">
+        <header class="chapter__head" data-reveal>
+          <span class="mono">A</span>
+          <h3>Motion graphics &amp; product promos</h3>
+        </header>
+        <div class="duo">
+          <article class="piece piece--lg" data-video="assets/video/slash-promo.mp4" data-title="Slash — Product launch spot">
+            <div class="media media--16x9" data-reveal="mask">
+              <button class="media__btn" aria-label="Play: Slash product launch spot">
+                <img src="assets/img/slash-promo.jpg" alt="Gold virtual cards floating over a dark fintech dashboard" loading="lazy">
+                <span class="media__tc mono">00:15</span>
+                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+            <div class="piece__cap" data-reveal>
+              <h4>Slash</h4>
+              <p>Fintech launch spot — 3D card reveals, glass UI and gold light passes.</p>
+              <ul class="tags mono"><li>After Effects</li><li>3D</li><li>UI anim</li></ul>
+            </div>
+          </article>
+
+          <article class="piece piece--sm" data-video="assets/video/subloop-promo.mp4" data-title="Subloop — SaaS product promo" data-speed="0.07">
+            <div class="media media--16x9" data-reveal="mask">
+              <button class="media__btn" aria-label="Play: Subloop SaaS product promo">
+                <img src="assets/img/subloop-promo.jpg" alt="Red glass subscription cards stacked in a dark scene" loading="lazy">
+                <span class="media__tc mono">00:48</span>
+                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+            <div class="piece__cap" data-reveal>
+              <h4>Subloop</h4>
+              <p>App explainer — UI animation, kinetic type and a live-action composite.</p>
+              <ul class="tags mono"><li>After Effects</li><li>Kinetic type</li><li>Compositing</li></ul>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Crypto shorts — a fanned hand of phones -->
+      <div class="chapter chapter--fan">
+        <header class="chapter__head wrap" data-reveal>
+          <span class="mono">B</span>
+          <h3>Crypto &amp; finance motion graphics</h3>
+          <p class="chapter__aside mono">Vertical · TikTok, Reels, Shorts · EN / ES / DE</p>
+        </header>
+        <div class="fan" data-fan>
+          <article class="phone" data-video="assets/video/ai-jobs-explainer.mp4" data-title="AI vs. Jobs — Crypto motion graphics" style="--i:0">
+            <div class="media media--9x16">
+              <button class="media__btn" aria-label="Play: AI vs. Jobs, crypto motion graphics">
+                <img src="assets/img/ai-jobs-explainer.jpg" alt="Man at a mic with an AI voice interface overlay" loading="lazy">
+                <span class="media__tc mono">00:49</span>
+                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+            <div class="phone__cap"><h4>AI vs. Jobs</h4><p>News compositing and captions paced for retention.</p></div>
+          </article>
+
+          <article class="phone" data-video="assets/video/btc-pump-en.mp4" data-title="The BTC Pump — Crypto explainer" style="--i:1">
+            <div class="media media--9x16">
+              <button class="media__btn" aria-label="Play: The BTC Pump, crypto explainer">
+                <img src="assets/img/btc-pump-en.jpg" alt="Warning sign beside a Bitcoin coin, captioned Pay attention" loading="lazy">
+                <span class="media__tc mono">00:54</span>
+                <span class="media__lang mono">EN</span>
+                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+            <div class="phone__cap"><h4>The BTC Pump</h4><p>A macro-to-market story told in under a minute.</p></div>
+          </article>
+
+          <article class="phone" data-video="assets/video/xrp-2026-en.mp4" data-title="XRP 2026 — Chart breakdown" data-langs='{"EN":["assets/video/xrp-2026-en.mp4","assets/img/xrp-2026-en.jpg"],"ES":["assets/video/xrp-2026-es.mp4","assets/img/xrp-2026-es.jpg"]}' style="--i:2">
+            <div class="media media--9x16">
+              <button class="media__btn" aria-label="Play: XRP 2026 chart breakdown">
+                <img src="assets/img/xrp-2026-en.jpg" alt="XRP logo over a rising green chart line" loading="lazy">
+                <span class="media__tc mono">00:49</span>
+                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+            <div class="phone__cap">
+              <h4>XRP 2026</h4><p>Technical analysis made readable — localised per market.</p>
+              <div class="lang-toggle mono" role="group" aria-label="Language version">
+                <button aria-pressed="true" data-lang="EN">EN</button><button aria-pressed="false" data-lang="ES">ES</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="phone" data-video="assets/video/btc-dominance-de.mp4" data-title="Bitcoin Dominance — German edition" style="--i:3">
+            <div class="media media--9x16">
+              <button class="media__btn" aria-label="Play: Bitcoin dominance, German edition">
+                <img src="assets/img/btc-dominance-de.jpg" alt="Glowing smiley orb above a grid of crypto logos" loading="lazy">
+                <span class="media__tc mono">00:54</span>
+                <span class="media__lang mono">DE</span>
+                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+            <div class="phone__cap"><h4>BTC Dominance</h4><p>German-language cut with native caption timing.</p></div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Gaming -->
+      <div class="chapter wrap">
+        <header class="chapter__head" data-reveal>
+          <span class="mono">C</span>
+          <h3>Gaming edits — Call of Duty: Mobile</h3>
+        </header>
+        <div class="duo duo--flip">
+          <article class="piece piece--sm" data-video="assets/video/codm-bye.mp4" data-title="“BYE” — CODM sniper montage" data-speed="0.07">
+            <div class="media media--16x9" data-reveal="mask">
+              <button class="media__btn" aria-label="Play: BYE, CODM sniper montage">
+                <img src="assets/img/codm-bye.jpg" alt="Sniper scope view in a sunny Call of Duty: Mobile map" loading="lazy">
+                <span class="media__tc mono">00:24</span>
+                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+            <div class="piece__cap" data-reveal>
+              <h4>“BYE”</h4>
+              <p>Sniper montage — whip pans, scope zooms and a colour-punched grade.</p>
+              <ul class="tags mono"><li>Premiere Pro</li><li>After Effects</li><li>Grade</li></ul>
+            </div>
+          </article>
+
+          <article class="piece piece--lg" data-video="assets/video/codm-the-boys.mp4" data-title="CODM × The Boys — Event edit">
+            <div class="media media--16x9" data-reveal="mask">
+              <button class="media__btn" aria-label="Play: CODM × The Boys event edit">
+                <img src="assets/img/codm-the-boys.jpg" alt="Homelander firing heat vision in Call of Duty: Mobile" loading="lazy">
+                <span class="media__tc mono">00:31</span>
+                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+            <div class="piece__cap" data-reveal>
+              <h4>CODM × The Boys</h4>
+              <p>Event edit — speed ramps, flash transitions and beat-synced cuts.</p>
+              <ul class="tags mono"><li>Premiere Pro</li><li>Velocity</li><li>SFX</li></ul>
+            </div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Thumbnails -->
+      <div class="chapter wrap chapter--stills">
+        <header class="chapter__head" data-reveal>
+          <span class="mono">D</span>
+          <h3>Thumbnails</h3>
+          <p class="chapter__aside mono">Designed alongside the edit</p>
+        </header>
+        <div class="stills" data-stills>
+          <button class="still still--a" data-image="assets/img/thumbnail-arc-wallet.jpg" aria-label="View thumbnail: Arc Wallet — Debt to zero">
+            <img src="assets/img/thumbnail-arc-wallet.jpg" alt="Fintech thumbnail: Debt $3,000 to Debt $0 with an Arc Wallet payoff plan on a phone" loading="lazy">
+          </button>
+          <button class="still still--b" data-image="assets/img/thumbnail-ep64-toned-lincoln-cents.jpg" aria-label="View thumbnail: Podcast episode 64">
+            <img src="assets/img/thumbnail-ep64-toned-lincoln-cents.jpg" alt="Podcast thumbnail: toned Lincoln cents, episode 64" loading="lazy">
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SERVICES ============ -->
+    <section class="services wrap" id="services">
+      <div class="services__intro">
+        <p class="kicker mono" data-reveal><span>02</span>Services</p>
+        <h2 class="h2" data-split>What I can <em>take off your plate.</em></h2>
+        <p class="services__lead" data-reveal>Hand me raw footage and a deadline. You get back something people finish watching.</p>
+        <div class="sculpture" aria-hidden="true" data-reveal>
+          <svg viewBox="0 0 200 200" class="sculpture__svg">
+            <circle cx="100" cy="100" r="98" fill="none" stroke="rgba(255,240,225,.12)"/>
+            <circle cx="100" cy="100" r="40" fill="url(#iris)"/>
+            <g class="sculpture__blades" fill="url(#blade)" stroke="rgba(255,240,225,.16)" stroke-width=".8" stroke-linejoin="round">
+              <path d="M100.00 70.00L135.21 12.84A94 94 0 0 1 193.94 103.28L125.98 85.00Z"/>
+              <path d="M125.98 85.00L193.09 86.92A94 94 0 0 1 144.13 183.00L125.98 115.00Z"/>
+              <path d="M125.98 115.00L157.87 174.07A94 94 0 0 1 50.19 179.72L100.00 130.00Z"/>
+              <path d="M100.00 130.00L64.79 187.16A94 94 0 0 1 6.06 96.72L74.02 115.00Z"/>
+              <path d="M74.02 115.00L6.91 113.08A94 94 0 0 1 55.87 17.00L74.02 85.00Z"/>
+              <path d="M74.02 85.00L42.13 25.93A94 94 0 0 1 149.81 20.28L100.00 70.00Z"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+
+      <ol class="services__list">
+        <li class="service" data-reveal>
+          <span class="service__n mono">01</span>
+          <div>
+            <h3>Short-form editing</h3>
+            <p>TikTok, Reels and Shorts cut for retention — hooks in the first second, platform-native pacing, captions that land on the beat.</p>
+            <span class="service__tools mono">Premiere Pro · CapCut</span>
+          </div>
+        </li>
+        <li class="service" data-reveal>
+          <span class="service__n mono">02</span>
+          <div>
+            <h3>Motion graphics</h3>
+            <p>Product promos, UI animation, kinetic type, 3D camera moves, particles and HUD-style graphics — built to match your brand.</p>
+            <span class="service__tools mono">After Effects · Illustrator</span>
+          </div>
+        </li>
+        <li class="service" data-reveal>
+          <span class="service__n mono">03</span>
+          <div>
+            <h3>Colour &amp; sound</h3>
+            <p>Grades that hold a look across a whole series, plus balanced, loudness-normalised audio and sound design that sells every cut.</p>
+            <span class="service__tools mono">Lumetri · Essential Sound</span>
+          </div>
+        </li>
+        <li class="service" data-reveal>
+          <span class="service__n mono">04</span>
+          <div>
+            <h3>Thumbnails &amp; stills</h3>
+            <p>High-contrast, click-worthy thumbnails tailored to each channel’s identity — designed alongside the video, not as an afterthought.</p>
+            <span class="service__tools mono">Photoshop · Figma</span>
+          </div>
+        </li>
+        <li class="service" data-reveal>
+          <span class="service__n mono">05</span>
+          <div>
+            <h3>Websites</h3>
+            <p>The engineer in me also builds fast, responsive sites — this one is hand-coded. See a <a class="link" href="https://com-spotifyweb-desig.netlify.app/" target="_blank" rel="noopener">Spotify UI build ↗</a> or the <a class="link" href="https://github.com/Bobzycruiz/Portf_retouch" target="_blank" rel="noopener">code for this site ↗</a>.</p>
+            <span class="service__tools mono">HTML · CSS · JS · Figma</span>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ============ PROCESS — sticky grading story ============ -->
+    <section class="process" id="process" data-process>
+      <div class="process__stage">
+        <div class="process__grid wrap">
+          <div class="process__copy">
+            <p class="kicker mono" data-reveal><span>03</span>Process</p>
+            <h2 class="h2" data-split>From brief to export, <em>no surprises.</em></h2>
+            <ol class="steps">
+              <li class="step is-active">
+                <span class="step__n mono">01</span>
+                <div><h3>Brief</h3><p>We agree on the goal, platform, length and references. You send footage and brand assets.</p></div>
+              </li>
+              <li class="step">
+                <span class="step__n mono">02</span>
+                <div><h3>Rough cut</h3><p>Story and pacing first. You get a first cut quickly and can steer before anything is polished.</p></div>
+              </li>
+              <li class="step">
+                <span class="step__n mono">03</span>
+                <div><h3>Motion &amp; grade</h3><p>Graphics, captions, transitions, colour and sound — the layer that makes it feel premium.</p></div>
+              </li>
+              <li class="step">
+                <span class="step__n mono">04</span>
+                <div><h3>Deliver</h3><p>Exports for every platform and aspect ratio, plus language versions when you need them.</p></div>
+              </li>
+            </ol>
+          </div>
+
+          <div class="monitor" data-step="0" aria-hidden="true">
+            <div class="monitor__screen">
+              <img src="assets/img/codm-the-boys.jpg" alt="" loading="lazy">
+              <div class="monitor__grid"></div>
+              <div class="monitor__guides"><span class="g916">9:16</span><span class="g11">1:1</span></div>
+              <span class="monitor__label mono"><span class="rec"></span><b>Brief</b></span>
+            </div>
+            <div class="monitor__timeline">
+              <div class="track">
+                <span class="track__label mono">V1</span>
+                <div class="track__lane">
+                  <span class="clip" style="--w:18%">Brief</span>
+                  <span class="clip" style="--w:30%">Rough cut</span>
+                  <span class="clip" style="--w:34%">Motion &amp; grade</span>
+                  <span class="clip" style="--w:18%">Deliver</span>
+                </div>
+              </div>
+              <div class="track">
+                <span class="track__label mono">A1</span>
+                <div class="track__lane"><span class="wave"></span></div>
+              </div>
+              <span class="playhead"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about wrap" id="about">
+      <div class="about__visual" data-reveal>
+        <div class="lensring">
+          <svg class="lensring__text" viewBox="0 0 400 400" aria-hidden="true">
+            <defs><path id="ring" d="M200 200m-182 0a182 182 0 1 1 364 0a182 182 0 1 1-364 0"/></defs>
+            <text><textPath href="#ring" textLength="1130">BOBOLA ALABI · VIDEO EDITOR · MOTION DESIGNER · EST. 2020 · NIGERIA ·</textPath></text>
+          </svg>
+          <div class="lensring__photo">
+            <img src="assets/img/bobola.jpg" alt="Portrait of Bobola Alabi" loading="lazy">
+          </div>
+          <span class="lensring__badge mono"><span class="rec" aria-hidden="true"></span>Editor</span>
+        </div>
+      </div>
+
+      <div class="about__copy">
+        <p class="kicker mono" data-reveal><span>04</span>About</p>
+        <h2 class="h2" data-split>Engineer’s eye, <em>editor’s instinct.</em></h2>
+        <div data-reveal>
+          <p>
+            I’ve been freelancing in design and video since 2020, and I recently finished a
+            B.Eng. in Computer Engineering at Federal University Oye-Ekiti. That background shows up
+            in how I work: structured projects, clean files, and small tools — like an FFmpeg
+            pipeline for platform-ready slow motion — that keep turnaround fast. It’s also why
+            I build websites on the side, including this one.
+          </p>
+          <p>
+            I handle the whole pipeline on my own — concept, edit, motion, grade and delivery — and
+            I’m just as comfortable plugging into a team.
+          </p>
+        </div>
+
+        <dl class="facts" data-reveal>
+          <div><dt class="mono">Experience</dt><dd>5<sup>+</sup><small>years</small></dd></div>
+          <div><dt class="mono">Views generated</dt><dd>M<sup>+</sup><small>millions</small></dd></div>
+          <div><dt class="mono">Languages delivered</dt><dd>3<small>EN · ES · DE</small></dd></div>
+          <div><dt class="mono">Freelancing since</dt><dd>2020<small>Nigeria, WAT</small></dd></div>
+        </dl>
+
+        <ul class="chips mono" data-reveal>
+          <li>Premiere Pro</li><li>After Effects</li><li>Photoshop</li><li>Illustrator</li><li>CapCut</li><li>FFmpeg</li><li>Figma</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact" id="contact">
+      <div class="contact__surface">
+        <div class="contact__light" aria-hidden="true"></div>
+        <div class="contact__grid wrap">
+          <div class="contact__intro">
+            <p class="kicker mono" data-reveal><span>05</span>Contact</p>
+            <h2 class="contact__title" data-split>Got footage? Let’s make it <em>move.</em></h2>
+            <a class="contact__email link" href="mailto:bobzycruiz2004@gmail.com" data-reveal>bobzycruiz2004@gmail.com</a>
+            <div class="contact__ctas" data-reveal>
+              <a class="btn" href="https://wa.me/2348080811089" target="_blank" rel="noopener" data-magnetic><span>WhatsApp me</span></a>
+              <a class="btn btn--ghost" href="assets/Bobola_Alabi_Video_Editor_CV.pdf" download data-magnetic><span>Download CV</span></a>
+            </div>
+            <dl class="contact__list" data-reveal>
+              <div><dt class="mono">WhatsApp</dt><dd><a class="link" href="https://wa.me/2348080811089" target="_blank" rel="noopener">+234 808 081 1089</a></dd></div>
+              <div><dt class="mono">Phone</dt><dd><a class="link" href="tel:+2348147985823">+234 814 798 5823</a></dd></div>
+              <div><dt class="mono">Local time</dt><dd id="clock">--:--</dd></div>
+            </dl>
+          </div>
+
+          <form class="form" id="contact-form" action="https://formsubmit.co/bobzycruiz2004@gmail.com" method="POST" data-reveal>
+            <input type="hidden" name="_subject" value="New project enquiry — portfolio site">
+            <input type="hidden" name="_template" value="table">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+            <p class="form__title">Start a project</p>
+            <label class="field"><span class="mono">Name</span><input type="text" name="name" autocomplete="name" required></label>
+            <label class="field"><span class="mono">Email</span><input type="email" name="email" autocomplete="email" required></label>
+            <fieldset class="field field--choices">
+              <legend class="mono">What are we making?</legend>
+              <div class="choices">
+                <label><input type="radio" name="project_type" value="Short-form edits" checked><span>Short-form</span></label>
+                <label><input type="radio" name="project_type" value="Motion graphics"><span>Motion graphics</span></label>
+                <label><input type="radio" name="project_type" value="Gaming edit"><span>Gaming</span></label>
+                <label><input type="radio" name="project_type" value="Thumbnails"><span>Thumbnails</span></label>
+                <label><input type="radio" name="project_type" value="Website"><span>Website</span></label>
+              </div>
+            </fieldset>
+            <label class="field"><span class="mono">Details</span><textarea name="message" rows="4" placeholder="Platform, length, deadline, references…" required></textarea></label>
+            <button type="submit" class="btn btn--full"><span>Send message</span></button>
+            <p class="form__status mono" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <footer class="footer wrap">
+          <div class="footer__top">
+            <ul class="socials">
+              <li><a class="link" href="https://www.linkedin.com/in/bobola-alabi-345b64447" target="_blank" rel="noopener">LinkedIn</a></li>
+              <li><a class="link" href="https://www.tiktok.com/@bobzy_codm" target="_blank" rel="noopener">TikTok</a></li>
+              <li><a class="link" href="https://www.instagram.com/bobzycruiz/" target="_blank" rel="noopener">Instagram</a></li>
+              <li><a class="link" href="https://twitter.com/Bobzy_cruiz" target="_blank" rel="noopener">X / Twitter</a></li>
+              <li><a class="link" href="https://www.facebook.com/bobzy.cruiz" target="_blank" rel="noopener">Facebook</a></li>
+              <li><a class="link" href="https://github.com/Bobzycruiz" target="_blank" rel="noopener">GitHub</a></li>
+            </ul>
+            <a href="#top" class="mono to-top link">Back to top ↑</a>
+          </div>
+          <div class="footer__word" aria-hidden="true">
+            <svg class="footer__mark"><use href="#aperture"/></svg>
+            <span>Bobola Alabi</span>
+          </div>
+          <div class="footer__bottom mono">
+            <span>© <span id="year">2026</span> Bobola Alabi</span>
+            <span>Video editor &amp; motion designer</span>
+          </div>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ PLAYER ============ -->
+  <dialog class="player" id="player" aria-label="Media viewer">
+    <div class="player__inner">
+      <div class="player__bar mono">
+        <span id="player-title"></span>
+        <button class="player__close" id="player-close" aria-label="Close">Close <span aria-hidden="true">✕</span></button>
+      </div>
+      <div class="player__stage" id="player-stage"></div>
     </div>
-    </body>
-    </html>
+  </dialog>
+
+  <script src="assets/js/main.js" defer></script>
 </body>
 </html>
