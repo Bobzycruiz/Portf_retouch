@@ -14,7 +14,8 @@
   <meta property="og:image" content="https://bobzycruiz-portfweb.netlify.app/assets/img/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
-  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
@@ -43,19 +44,9 @@
   </script>
 </head>
 <body>
-  <!-- Aperture symbol: the site's signature mark -->
+  <!-- Icon sprite + sculpture gradients -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <defs>
-      <symbol id="aperture" viewBox="0 0 200 200">
-        <g fill="currentColor" stroke="var(--bg)" stroke-width="5" stroke-linejoin="round">
-          <path d="M100.00 74.00L134.46 14.70A92 92 0 0 1 191.94 103.21L122.52 87.00Z"/>
-          <path d="M122.52 87.00L191.10 87.20A92 92 0 0 1 143.19 181.23L122.52 113.00Z"/>
-          <path d="M122.52 113.00L156.64 172.50A92 92 0 0 1 51.25 178.02L100.00 126.00Z"/>
-          <path d="M100.00 126.00L65.54 185.30A92 92 0 0 1 8.06 96.79L77.48 113.00Z"/>
-          <path d="M77.48 113.00L8.90 112.80A92 92 0 0 1 56.81 18.77L77.48 87.00Z"/>
-          <path d="M77.48 87.00L43.36 27.50A92 92 0 0 1 148.75 21.98L100.00 74.00Z"/>
-        </g>
-      </symbol>
       <!-- Brand icons: Simple Icons (CC0) -->
       <symbol id="i-linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></symbol>
       <symbol id="i-tiktok" viewBox="0 0 24 24"><path fill="currentColor" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></symbol>
@@ -78,7 +69,7 @@
 
   <!-- Loader: the lens opens -->
   <div class="loader" aria-hidden="true">
-    <svg class="loader__mark"><use href="#aperture"/></svg>
+    <img class="loader__mark" src="assets/img/logo-sm.webp" alt="" width="240" height="132">
   </div>
 
   <a class="skip" href="#work">Skip to work</a>
@@ -87,7 +78,7 @@
   <header class="header">
     <div class="header__inner">
       <a href="#top" class="brand" aria-label="Bobola Alabi — back to top">
-        <svg class="brand__mark" aria-hidden="true"><use href="#aperture"/></svg>
+        <img class="brand__mark" src="assets/img/logo-sm.webp" alt="" width="240" height="132">
         <span class="brand__name">Bobola Alabi</span>
       </a>
       <nav class="nav" aria-label="Primary">
@@ -595,7 +586,7 @@
               </a></li>
           </ul>
           <div class="footer__word" aria-hidden="true">
-            <svg class="footer__mark"><use href="#aperture"/></svg>
+            <img class="footer__mark" src="assets/img/logo.webp" alt="" width="720" height="395" loading="lazy">
             <span>Bobola Alabi</span>
           </div>
           <div class="footer__bottom mono">
