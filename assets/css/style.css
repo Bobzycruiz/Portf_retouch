@@ -868,8 +868,59 @@ em:not(:has(.w)),
 /* footer */
 .footer { padding-top: 32px; border-top: 1px solid var(--line); }
 .footer__top { display: flex; justify-content: space-between; align-items: center; gap: 16px 32px; flex-wrap: wrap; }
-.socials { display: flex; flex-wrap: wrap; gap: 10px 28px; }
-.socials a, .to-top { color: var(--muted); }
+.to-top { color: var(--muted); }
+
+/* social tiles — each icon lights up in its own brand colour */
+.socials { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 24px; }
+.social {
+  --brand: var(--accent); --brand-fg: #fff; --glow: rgba(255, 90, 44, 0.45);
+  position: relative; isolation: isolate; overflow: hidden;
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 18px 14px 14px; border-radius: 22px;
+  background: rgba(255, 240, 225, 0.03);
+  box-shadow: inset 0 0 0 1px var(--line);
+  transition: transform 0.6s var(--ease-out), background 0.4s, box-shadow 0.6s var(--ease-out);
+}
+.social::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background: radial-gradient(220px circle at 36px 50%, var(--glow), transparent 70%);
+  opacity: 0; transition: opacity 0.5s;
+}
+.social__icon {
+  display: grid; place-items: center; flex: none;
+  width: 46px; height: 46px; border-radius: 15px;
+  background: rgba(255, 240, 225, 0.07); color: var(--text);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: background 0.45s, color 0.45s, transform 0.7s var(--ease-out), box-shadow 0.45s;
+}
+.social__icon svg { width: 20px; height: 20px; }
+.social__text { display: grid; gap: 3px; min-width: 0; }
+.social__name { font-size: 16px; font-weight: 500; letter-spacing: -0.02em; line-height: 1.2; }
+.social__handle { color: var(--muted); font-size: 10.5px; text-transform: none; letter-spacing: 0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.social__arrow { flex: none; width: 16px; height: 16px; margin-left: auto; color: var(--muted); opacity: 0.45; transform: translate(-4px, 4px); transition: transform 0.5s var(--ease-out), opacity 0.4s, color 0.4s; }
+
+.social:hover,
+.social:focus-visible {
+  transform: translateY(-4px);
+  background: rgba(255, 240, 225, 0.055);
+  box-shadow: inset 0 0 0 1px var(--line-2), 0 24px 48px -24px var(--glow);
+}
+.social:hover::before,
+.social:focus-visible::before { opacity: 0.6; }
+.social:hover .social__icon,
+.social:focus-visible .social__icon { background: var(--brand); color: var(--brand-fg); transform: rotate(-8deg) scale(1.06); }
+.social:hover .social__arrow,
+.social:focus-visible .social__arrow { opacity: 1; color: var(--text); transform: none; }
+.social:focus-visible { outline-offset: 3px; border-radius: 22px; }
+
+.social--linkedin { --brand: #0a66c2; --glow: rgba(10, 102, 194, 0.55); }
+.social--tiktok { --brand: #111; --glow: rgba(37, 244, 238, 0.35); }
+.social--tiktok:hover .social__icon svg,
+.social--tiktok:focus-visible .social__icon svg { filter: drop-shadow(-1.5px -1px 0 #25f4ee) drop-shadow(1.5px 1px 0 #fe2c55); }
+.social--instagram { --brand: radial-gradient(circle at 30% 107%, #fdf497 0%, #fd5949 45%, #d6249f 60%, #285aeb 90%); --glow: rgba(214, 36, 159, 0.45); }
+.social--x { --brand: var(--text); --brand-fg: #0b0a09; --glow: rgba(243, 238, 230, 0.25); }
+.social--facebook { --brand: #0866ff; --glow: rgba(8, 102, 255, 0.5); }
+.social--github { --brand: var(--text); --brand-fg: #0b0a09; --glow: rgba(243, 238, 230, 0.25); }
 .footer__word {
   display: flex; align-items: center; gap: 0.12em;
   margin: clamp(48px, 7vw, 96px) 0 0;
@@ -991,6 +1042,7 @@ em:not(:has(.w)),
   .sculpture { display: none; }
 
   .about, .contact__grid { grid-template-columns: 1fr; }
+  .socials { grid-template-columns: repeat(2, 1fr); }
   .lensring { width: min(400px, 92%); }
 }
 
@@ -1005,6 +1057,12 @@ em:not(:has(.w)),
   .monitor__screen, .monitor__timeline { transform: none; }
   .clip { font-size: 10px; padding: 6px; }
   .footer__bottom { flex-direction: column; gap: 6px; }
+  .socials { gap: 10px; }
+  .social { gap: 10px; padding: 12px; border-radius: 18px; }
+  .social__icon { width: 40px; height: 40px; border-radius: 13px; }
+  .social__icon svg { width: 18px; height: 18px; }
+  .social__name { font-size: 14.5px; }
+  .social__arrow { display: none; }
 }
 
 /* ==========================================================
