@@ -410,22 +410,34 @@
   setInterval(setClock, 30000);
   $("#year").textContent = new Date().getFullYear();
 
-  /* ---------- contact form (FormSubmit AJAX) ---------- */
+  /* ---------- contact form (Netlify Forms, with an email fallback so no message is lost) ---------- */
   const form = $("#contact-form");
   const status = $(".form__status", form);
+  const EMAIL = "bobzycruiz2004@gmail.com";
+
+  const emailFallback = (data) => {
+    const body = `${data.get("message")}\n\n— ${data.get("name")} (${data.get("email")})\nProject: ${data.get("project_type")}`;
+    const a = document.createElement("a");
+    a.className = "link";
+    a.href = `mailto:${EMAIL}?subject=${encodeURIComponent("Project enquiry — " + data.get("project_type"))}&body=${encodeURIComponent(body)}`;
+    a.textContent = "Tap here to send it by email instead";
+    return a;
+  };
+
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const btn = $("button[type=submit]", form);
     const label = $("span", btn);
+    const data = new FormData(form);
     btn.disabled = true;
     label.textContent = "Sending…";
     status.className = "form__status mono";
     status.textContent = "";
     try {
-      const res = await fetch(form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
+      const res = await fetch("/", {
         method: "POST",
-        headers: { Accept: "application/json" },
-        body: new FormData(form),
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(data).toString(),
       });
       if (!res.ok) throw new Error(res.status);
       form.reset();
@@ -433,7 +445,7 @@
       status.textContent = "Message sent — I’ll get back to you within 24 hours.";
     } catch {
       status.classList.add("err");
-      status.textContent = "Couldn’t send. Email me directly at bobzycruiz2004@gmail.com.";
+      status.append("Couldn’t send right now — your message is still here. ", emailFallback(data), ".");
     } finally {
       btn.disabled = false;
       label.textContent = "Send message";

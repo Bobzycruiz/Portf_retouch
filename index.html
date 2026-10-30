@@ -532,11 +532,11 @@
             </dl>
           </div>
 
-          <form class="form" id="contact-form" action="https://formsubmit.co/bobzycruiz2004@gmail.com" method="POST" data-reveal>
-            <input type="hidden" name="_subject" value="New project enquiry — portfolio site">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <!-- Netlify Forms: submissions are stored in the Netlify dashboard and emailed to Bobola -->
+          <form class="form" id="contact-form" name="contact" method="POST" action="/" data-netlify="true" netlify-honeypot="bot-field" data-reveal>
+            <input type="hidden" name="form-name" value="contact">
+            <input type="hidden" name="subject" value="New project enquiry — portfolio site">
+            <p class="hp" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
 
             <p class="form__title">Start a project</p>
             <label class="field"><span class="mono">Name</span><input type="text" name="name" autocomplete="name" required></label>
