@@ -134,17 +134,25 @@
   /* ---------- hero video: only plays while visible ---------- */
   const hero = $(".hero");
   const heroVideo = $(".lens__video");
+  let heroVisible = true;
+  const resumeHero = () => {
+    if (!reduceMotion && heroVisible && !$("#player").open) heroVideo.play().catch(() => {});
+  };
   if (reduceMotion) {
     heroVideo.removeAttribute("autoplay");
     heroVideo.pause();
   } else {
-    new IntersectionObserver(([e]) => (e.isIntersecting ? heroVideo.play().catch(() => {}) : heroVideo.pause())).observe(hero);
+    new IntersectionObserver(([e]) => {
+      heroVisible = e.isIntersecting;
+      heroVisible ? resumeHero() : heroVideo.pause();
+    }).observe(hero);
   }
 
   /* ==========================================================
      SCROLL CHOREOGRAPHY
      ========================================================== */
   const heroContent = $(".hero__content");
+  const hudEl = $(".lens__hud");
   const process = $("[data-process]");
   const monitor = $(".monitor");
   const monitorLabel = $(".monitor__label b");
@@ -185,7 +193,9 @@
     style.setProperty("--lb", `${b}px`);
     style.setProperty("--ll", `${l}px`);
     style.setProperty("--lrad", `${lerp(startRad, 28, e)}px`);
-    style.setProperty("--hud", clamp((p - 0.68) / 0.2).toFixed(3));
+    const hud = clamp((p - 0.68) / 0.2);
+    style.setProperty("--hud", hud.toFixed(3));
+    hudEl.style.pointerEvents = hud > 0.5 ? "" : "none";
     style.setProperty("--cue", (1 - clamp(p / 0.06)).toFixed(3));
     heroContent.style.setProperty("--c-op", (1 - clamp(p / 0.32)).toFixed(3));
     heroContent.style.setProperty("--c-y", (-p * 160).toFixed(1));
@@ -295,6 +305,7 @@
     }
     player.showModal();
     document.body.style.overflow = "hidden";
+    heroVideo.pause();
   }
   player.addEventListener("close", () => {
     const v = $("video", stage);
@@ -302,7 +313,19 @@
     stage.innerHTML = "";
     document.body.style.overflow = "";
     if (lastFocus) lastFocus.focus({ preventScroll: true });
+    resumeHero();
   });
+
+  /* ---------- showreel: the hero loop is a silent preview; these open the full cut with sound ---------- */
+  const playReel = () =>
+    openPlayer({ video: "assets/video/showreel.mp4", poster: "assets/img/showreel.jpg", title: "Showreel 2026 — ConConAI product launch" });
+  $$("[data-reel]").forEach((b) =>
+    b.addEventListener("click", (e) => {
+      e.stopPropagation();
+      playReel();
+    })
+  );
+  $(".lens__frame").addEventListener("click", playReel);
   $("#player-close").addEventListener("click", () => player.close());
   player.addEventListener("click", (e) => {
     if ([player, stage, $(".player__inner")].includes(e.target)) player.close();
