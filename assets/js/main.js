@@ -318,7 +318,7 @@
 
   /* ---------- showreel: the hero loop is a silent preview; these open the full cut with sound ---------- */
   const playReel = () =>
-    openPlayer({ video: "assets/video/showreel.mp4", poster: "assets/img/showreel.jpg", title: "Showreel 2026 — ConConAI product launch" });
+    openPlayer({ video: "assets/video/showreel.mp4", poster: "assets/img/showreel.jpg", title: "Showreel 2026 — ConConAI motion graphics" });
   $$("[data-reel]").forEach((b) =>
     b.addEventListener("click", (e) => {
       e.stopPropagation();
