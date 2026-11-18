@@ -236,6 +236,7 @@
     if (root.classList.contains("fx-process")) processFrame();
     if (!reduceMotion) statementFrame(vh);
     if (fxEnabled()) ambientFrame(vh);
+    interactiveFrame();
   }
   const requestFrame = () => {
     if (!ticking) {
@@ -263,6 +264,7 @@
     const fx = fxEnabled();
     root.classList.toggle("fx-hero", fx);
     root.classList.toggle("fx-process", fx);
+    root.classList.toggle("fx-dock", desktopMQ.matches);
     if (!fx) {
       heroContent.style.visibility = "";
       parallaxEls.forEach((el) => (el.style.translate = ""));
@@ -373,8 +375,6 @@
       openPlayer({ video: item.dataset.video, poster: img.src, title: item.dataset.title, vertical: media.classList.contains("media--9x16") });
     };
     btn.addEventListener("click", play);
-    const cta = $(".feature__cta", item);
-    if (cta) cta.addEventListener("click", play);
 
     /* language versions (XRP EN / ES) */
     const toggle = $(".lang-toggle", item);
@@ -394,7 +394,7 @@
     }
   });
 
-  $$(".still").forEach((s) => s.addEventListener("click", () => openPlayer({ image: s.dataset.image, title: $("img", s).alt })));
+  $$(".still").forEach((s) => s.addEventListener("click", () => openPlayer({ image: s.dataset.image, title: s.dataset.title || $("img", s).alt })));
 
   /* ---------- light that follows the cursor (services) ---------- */
   if (finePointer) {
@@ -474,4 +474,340 @@
       label.textContent = "Send message";
     }
   });
+
+  /* ==========================================================
+     INTERACTIVE LAYER — catalogue, finder, palette, timeline dock, cursor
+     ========================================================== */
+  const el = (tag, props = {}, ...kids) => {
+    const n = Object.assign(document.createElement(tag), props);
+    n.append(...kids);
+    return n;
+  };
+
+  $$("[data-play]").forEach((b) => b.addEventListener("click", () => $(".media__btn", $(b.dataset.play)).click()));
+
+  const toastEl = $(".toast");
+  let toastTimer = null;
+  const toast = (msg) => {
+    toastEl.textContent = msg;
+    toastEl.classList.add("is-on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove("is-on"), 2200);
+  };
+
+  /* ---------- catalogue: everything a visitor can open, read from the page itself ---------- */
+  const CATS = {
+    crypto: { label: "Crypto & finance", keys: "crypto bitcoin btc xrp finance market short vertical tiktok reels shorts explainer" },
+    promo: { label: "Product promo", keys: "promo product launch saas fintech app ui motion graphics landscape" },
+    thumb: { label: "Thumbnail", keys: "thumbnail youtube still design image" },
+  };
+  const catalogue = [
+    {
+      cat: "promo", vertical: false, verb: "Play", run: playReel,
+      title: () => "ConConAI — Showreel",
+      poster: () => "assets/img/showreel.jpg",
+      meta: "Product promo · 00:24",
+      keys: CATS.promo.keys + " showreel reel conconai",
+    },
+    ...$$("[data-cat]").map((node) => {
+      const still = node.classList.contains("still");
+      const cat = CATS[node.dataset.cat];
+      return {
+        cat: node.dataset.cat,
+        vertical: Boolean($(".media--9x16", node)),
+        verb: still ? "View" : "Play",
+        run: () => (still ? node : $(".media__btn", node)).click(),
+        title: () => node.dataset.title,
+        poster: () => $("img", node).getAttribute("src"),
+        meta: [cat.label, $(".media__tc", node)?.textContent, $(".media__lang", node)?.textContent].filter(Boolean).join(" · "),
+        keys: cat.keys,
+      };
+    }),
+  ];
+
+  /* ---------- finder: pick a need, see the matching work ---------- */
+  const NEEDS = {
+    crypto: {
+      blurb: "Vertical explainers that turn charts and headlines into something people watch to the end.",
+      points: ["Animated charts, data cards and kinetic captions", "Localised per market — English, Spanish, German", "9:16 exports ready for TikTok, Reels and Shorts"],
+      more: ["#work-crypto", "See all crypto work"],
+      choice: "Crypto content",
+    },
+    promo: {
+      blurb: "Launch films and app promos that make a product feel inevitable in under a minute.",
+      points: ["UI animation, 3D camera moves and kinetic type", "Built around your brand colours and voice", "16:9 master plus cut-downs for social"],
+      more: ["#work-promos", "See all promos"],
+      choice: "Motion graphics",
+    },
+    thumb: {
+      blurb: "High-contrast thumbnails designed alongside the edit, so the click and the video tell one story.",
+      points: ["Readable at phone size in a crowded feed", "Tailored to each channel’s identity", "Variants for A/B testing on request"],
+      more: ["#work-thumbs", "See the thumbnails"],
+      choice: "Thumbnails",
+    },
+    web: {
+      blurb: "Fast, hand-coded websites from someone who also understands the content that goes on them.",
+      points: ["Responsive, accessible and quick to load", "Motion and interaction that serve the story", "This site is the live example"],
+      more: ["#services", "Read about the service"],
+      choice: "Website",
+      links: [
+        ["Spotify UI build", "Live demo ↗", "https://com-spotifyweb-desig.netlify.app/"],
+        ["Code for this site", "GitHub ↗", "https://github.com/Bobzycruiz/Portf_retouch"],
+      ],
+    },
+  };
+  const finderPanel = $("#finder-panel");
+  const finderTabs = $$(".finder__tabs [role=tab]");
+  let need = "crypto";
+
+  const renderFinder = () => {
+    const n = NEEDS[need];
+    $(".finder__blurb", finderPanel).textContent = n.blurb;
+    $(".finder__list", finderPanel).replaceChildren(...n.points.map((t) => el("li", { textContent: t })));
+    const more = $("[data-finder-more]", finderPanel);
+    more.setAttribute("href", n.more[0]);
+    $("span", more).textContent = n.more[1];
+    const cards = n.links
+      ? n.links.map(([title, kind, href]) =>
+          el("a", { className: "finder__ex finder__ex--link", href, target: "_blank", rel: "noopener" }, el("small", { textContent: kind }), el("b", { textContent: title })))
+      : catalogue.filter((c) => c.cat === need).map((c) => {
+          const card = el("button", { type: "button", className: `finder__ex finder__ex--${c.vertical ? "v" : "h"}` },
+            el("img", { src: c.poster(), alt: "", loading: "lazy" }), el("span", { textContent: c.title() }));
+          card.setAttribute("aria-label", `${c.verb}: ${c.title()}`);
+          card.dataset.cursor = c.verb;
+          card.addEventListener("click", c.run);
+          return card;
+        });
+    cards.forEach((c, i) => c.style.setProperty("--i", i));
+    $(".finder__examples", finderPanel).replaceChildren(...cards);
+  };
+
+  const selectNeed = (key, focus) => {
+    if (key === need) return;
+    need = key;
+    finderTabs.forEach((t) => {
+      const on = t.dataset.need === key;
+      t.setAttribute("aria-selected", String(on));
+      t.tabIndex = on ? 0 : -1;
+      if (on) finderPanel.setAttribute("aria-labelledby", t.id);
+      if (on && focus) t.focus();
+    });
+    if (reduceMotion) return renderFinder();
+    finderPanel.classList.add("is-swapping");
+    setTimeout(() => {
+      renderFinder();
+      void finderPanel.offsetWidth; // flush so the new content animates in
+      finderPanel.classList.remove("is-swapping");
+    }, 220);
+  };
+  finderTabs.forEach((t, i) => {
+    t.tabIndex = i ? -1 : 0;
+    t.addEventListener("click", () => selectNeed(t.dataset.need));
+    t.addEventListener("keydown", (e) => {
+      const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+      if (!step) return;
+      e.preventDefault();
+      selectNeed(finderTabs[(i + step + finderTabs.length) % finderTabs.length].dataset.need, true);
+    });
+  });
+  $("[data-finder-start]").addEventListener("click", () => {
+    const radio = $(`input[name="project_type"][value="${NEEDS[need].choice}"]`);
+    if (radio) radio.checked = true;
+  });
+  renderFinder();
+
+  /* ---------- palette: search work, sections and actions ---------- */
+  const palette = $("#palette");
+  const pInput = $("#palette-input");
+  const pList = $("#palette-list");
+  const jump = (hash) => () => $(hash).scrollIntoView();
+  const entries = [
+    ...catalogue.map((c) => ({ group: "Work", ...c })),
+    ...[
+      ["What are you looking for?", "#finder", "finder start need help choose"],
+      ["Work", "#work", "portfolio projects videos"],
+      ["Services", "#services", "services offer pricing what i do"],
+      ["Process", "#process", "process how it works steps"],
+      ["About", "#about", "about bio bobola who"],
+      ["Contact", "#contact", "contact hire message form"],
+    ].map(([t, hash, keys]) => ({ group: "Go to", glyph: "→", title: () => t, meta: "Section", run: jump(hash), keys })),
+    { group: "Actions", glyph: "✦", title: () => "WhatsApp me", meta: "+234 808 081 1089", keys: "whatsapp chat phone call hire", run: () => open("https://wa.me/2348080811089", "_blank", "noopener") },
+    { group: "Actions", glyph: "✦", title: () => "Email me", meta: EMAIL, keys: "email mail hire contact", run: () => (location.href = `mailto:${EMAIL}`) },
+    { group: "Actions", glyph: "✦", title: () => "Copy email address", meta: EMAIL, keys: "copy email clipboard", run: () => navigator.clipboard.writeText(EMAIL).then(() => toast("Email address copied"), () => toast(EMAIL)) },
+    { group: "Actions", glyph: "✦", title: () => "Download CV", meta: "PDF", keys: "cv resume download pdf", run: () => el("a", { href: "assets/Bobola_Alabi_Video_Editor_CV.pdf", download: "" }).click() },
+  ];
+  let pShown = [];
+  let pIndex = 0;
+
+  const markSelected = (i, scroll) => {
+    pIndex = clamp(i, 0, Math.max(0, pShown.length - 1));
+    $$(".palette__item", pList).forEach((row, k) => {
+      row.setAttribute("aria-selected", String(k === pIndex));
+      if (k === pIndex) {
+        pInput.setAttribute("aria-activedescendant", row.id);
+        if (scroll) row.scrollIntoView({ block: "nearest" });
+      }
+    });
+  };
+
+  const renderPalette = () => {
+    const tokens = pInput.value.toLowerCase().split(/\s+/).filter(Boolean);
+    pShown = entries.filter((e) => {
+      const hay = `${e.title()} ${e.meta} ${e.keys} ${e.group}`.toLowerCase();
+      return tokens.every((t) => hay.includes(t));
+    });
+    const rows = [];
+    let group = "";
+    pShown.forEach((e, i) => {
+      if (e.group !== group) rows.push(el("div", { className: "palette__group", textContent: (group = e.group) }));
+      const thumb = e.poster ? el("img", { className: "palette__thumb", src: e.poster(), alt: "" }) : el("span", { className: "palette__thumb", textContent: e.glyph });
+      const row = el("button", { type: "button", className: "palette__item", id: `palette-item-${i}` }, thumb,
+        el("span", { className: "palette__text" }, el("b", { textContent: e.title() }), el("small", { textContent: e.meta })),
+        el("span", { className: "palette__go", textContent: "↵" }));
+      row.setAttribute("role", "option");
+      row.addEventListener("pointermove", () => i !== pIndex && markSelected(i));
+      row.addEventListener("click", () => runEntry(i));
+      rows.push(row);
+    });
+    if (!pShown.length) rows.push(el("p", { className: "palette__empty", textContent: "Nothing matches — try “crypto”, “promo”, “thumbnail” or “contact”." }));
+    pList.replaceChildren(...rows);
+    markSelected(0);
+  };
+
+  const runEntry = (i) => {
+    const entry = pShown[i];
+    if (!entry) return;
+    palette.close();
+    entry.run();
+  };
+  const openPalette = () => {
+    if (palette.open || player.open) return;
+    if (header.classList.contains("menu-open")) setMenu(false);
+    pInput.value = "";
+    renderPalette();
+    palette.showModal();
+    pInput.focus();
+  };
+  pInput.addEventListener("input", renderPalette);
+  pInput.addEventListener("keydown", (e) => {
+    const move = { ArrowDown: pIndex + 1, ArrowUp: pIndex - 1, Home: 0, End: pShown.length - 1 }[e.key];
+    if (move !== undefined) {
+      e.preventDefault();
+      markSelected(move, true);
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      runEntry(pIndex);
+    }
+  });
+  palette.addEventListener("click", (e) => e.target === palette && palette.close());
+  $$("[data-palette-open]").forEach((b) => b.addEventListener("click", openPalette));
+  const isMac = /Mac|iPhone|iPad/.test(navigator.platform);
+  $$("[data-palette-open] kbd").forEach((k) => (k.textContent = isMac ? "⌘K" : "Ctrl K"));
+  addEventListener("keydown", (e) => {
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test(e.target.tagName);
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      palette.open ? palette.close() : openPalette();
+    } else if (e.key === "/" && !typing && !palette.open) {
+      e.preventDefault();
+      openPalette();
+    }
+  });
+
+  /* ---------- timeline dock: the page as an edit ---------- */
+  const dock = $(".dock");
+  const dockRuler = $(".dock__ruler");
+  const dockTc = $(".dock__tc");
+  const progressEl = $(".progress");
+  const dockSections = [["top", "Intro"], ["finder", "Find"], ["work", "Work"], ["services", "Services"], ["process", "Process"], ["about", "About"], ["contact", "Contact"]];
+  const dockClips = dockSections.map(([id, label]) => el("a", { className: "dock__clip", href: `#${id}`, textContent: label }));
+  $(".dock__clips").append(...dockClips);
+  let dockStops = [];
+  const maxScroll = () => Math.max(1, root.scrollHeight - innerHeight);
+
+  function layoutDock() {
+    const max = maxScroll();
+    dockStops = dockSections.map(([id], i) => (i ? clamp(($(`#${id}`).getBoundingClientRect().top + scrollY - 100) / max) : 0));
+    dockClips.forEach((c, i) => (c.style.flex = `${Math.max(0.03, (dockStops[i + 1] ?? 1) - dockStops[i])} 1 0`));
+    requestFrame();
+  }
+
+  function interactiveFrame() {
+    const max = maxScroll();
+    const p = clamp(scrollY / max);
+    progressEl.style.setProperty("--p", p.toFixed(4));
+    if (!root.classList.contains("fx-dock")) return;
+    dock.style.setProperty("--p", p.toFixed(4));
+    const pastHero = hero.getBoundingClientRect().bottom < innerHeight * 1.1;
+    dock.classList.toggle("is-on", scrubbing || (pastHero && scrollY < max - 60));
+    let active = 0;
+    dockStops.forEach((s, i) => p >= s - 0.004 && (active = i));
+    dockClips.forEach((c, i) => {
+      c.classList.toggle("is-on", i === active);
+      c.classList.toggle("is-done", i < active);
+    });
+    const t = p * 120; // the whole page reads as a two-minute cut
+    dockTc.textContent = `${pad(Math.floor(t / 60))}:${pad(Math.floor(t) % 60)}:${pad(Math.floor((t % 1) * 25))}`;
+    dockRuler.setAttribute("aria-valuenow", Math.round(p * 100));
+  }
+
+  const scrubTo = (e) => {
+    const r = dockRuler.getBoundingClientRect();
+    scrollTo({ top: clamp((e.clientX - r.left) / r.width) * maxScroll(), behavior: "instant" });
+  };
+  let scrubbing = false;
+  dockRuler.addEventListener("pointerdown", (e) => {
+    scrubbing = true;
+    try { dockRuler.setPointerCapture(e.pointerId); } catch {}
+    scrubTo(e);
+  });
+  dockRuler.addEventListener("pointermove", (e) => scrubbing && scrubTo(e));
+  ["pointerup", "pointercancel"].forEach((type) => dockRuler.addEventListener(type, () => (scrubbing = false)));
+  dockRuler.addEventListener("keydown", (e) => {
+    const dir = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[e.key];
+    if (!dir) return;
+    e.preventDefault();
+    scrollBy({ top: dir * maxScroll() * 0.04, behavior: "instant" });
+  });
+  layoutDock();
+  addEventListener("load", layoutDock);
+  addEventListener("resize", layoutDock);
+  desktopMQ.addEventListener("change", layoutDock);
+
+  /* ---------- reactive cursor: says what a click will do ---------- */
+  $$(".media__btn").forEach((b) => (b.dataset.cursor = "Play"));
+  $$(".still").forEach((b) => (b.dataset.cursor = "View"));
+  $(".lens__frame").dataset.cursor = "Play";
+  $(".lens__play").dataset.cursor = "";
+  dockRuler.dataset.cursor = "Drag";
+
+  if (finePointer && !reduceMotion) {
+    root.classList.add("has-cursor");
+    const cursor = $(".cursor");
+    const cursorLabel = $("span", cursor);
+    let cx = 0, cy = 0, tx = 0, ty = 0, moving = false;
+    const follow = () => {
+      cx = lerp(cx, tx, 0.24);
+      cy = lerp(cy, ty, 0.24);
+      cursor.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
+      moving = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.3;
+      if (moving) requestAnimationFrame(follow);
+    };
+    addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse") return;
+      tx = e.clientX;
+      ty = e.clientY;
+      if (!moving) {
+        moving = true;
+        requestAnimationFrame(follow);
+      }
+      const text = e.target.closest?.("[data-cursor]")?.dataset.cursor;
+      cursor.classList.toggle("is-active", Boolean(text));
+      if (text) cursorLabel.textContent = text;
+    }, { passive: true });
+    addEventListener("pointerdown", () => cursor.classList.add("is-down"));
+    addEventListener("pointerup", () => cursor.classList.remove("is-down"));
+    root.addEventListener("mouseleave", () => cursor.classList.remove("is-active"));
+    addEventListener("scroll", () => cursor.classList.remove("is-active"), { passive: true });
+  }
 })();

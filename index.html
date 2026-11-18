@@ -4,12 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Bobola Alabi — Video Editor &amp; Motion Designer</title>
-  <meta name="description" content="Bobola Alabi is a video editor and motion designer crafting short-form content and motion graphics for gaming, crypto and tech brands — edits that have generated millions of views.">
+  <meta name="description" content="Bobola Alabi is a video editor and motion designer crafting short-form content and motion graphics for crypto, fintech and tech brands — edits that have generated millions of views.">
   <meta name="theme-color" content="#0b0a09">
 
   <meta property="og:type" content="website">
   <meta property="og:title" content="Bobola Alabi — Video Editor &amp; Motion Designer">
-  <meta property="og:description" content="Short-form edits and motion graphics for gaming, crypto and tech brands.">
+  <meta property="og:description" content="Short-form edits and motion graphics for crypto, fintech and tech brands.">
   <meta property="og:url" content="https://bobzycruiz-portfweb.netlify.app/">
   <meta property="og:image" content="https://bobzycruiz-portfweb.netlify.app/assets/img/og.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -88,8 +88,11 @@
         <a href="#process">Process</a>
         <a href="#about">About</a>
       </nav>
-      <a href="#contact" class="btn btn--small header__cta" data-magnetic><span>Let’s talk</span></a>
-      <button class="menu-btn" aria-expanded="false" aria-controls="mobile-nav"><span>Menu</span></button>
+      <div class="header__end">
+        <button class="find-btn" type="button" data-palette-open aria-label="Search this site"><svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg><span>Find</span><kbd>⌘K</kbd></button>
+        <a href="#contact" class="btn btn--small header__cta" data-magnetic><span>Let’s talk</span></a>
+        <button class="menu-btn" aria-expanded="false" aria-controls="mobile-nav"><span>Menu</span></button>
+      </div>
     </div>
     <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile">
       <a href="#work"><span class="mono">01</span>Work</a>
@@ -115,7 +118,7 @@
           </h1>
           <div class="hero__foot hero__in" style="--d:3">
             <p class="hero__lede">
-              I’m Bobola Alabi — a video editor and motion designer for gaming, crypto and tech brands.
+              I’m Bobola Alabi — a video editor and motion designer for crypto, fintech and tech brands.
               My edits have generated <strong>millions of views</strong> across my clients’ channels.
             </p>
             <div class="hero__ctas">
@@ -145,11 +148,40 @@
     <section class="statement wrap" aria-label="Introduction">
       <p class="statement__text" data-words>
         I cut short-form and build motion graphics for
-        <span class="pill" aria-hidden="true"><img src="assets/img/codm-the-boys.jpg" alt=""></span> gaming,
-        <span class="pill" aria-hidden="true"><img src="assets/img/xrp-2026-en.jpg" alt=""></span> crypto and
+        <span class="pill" aria-hidden="true"><img src="assets/img/btc-six-weeks-en.jpg" alt=""></span> crypto,
+        <span class="pill" aria-hidden="true"><img src="assets/img/slash-promo.jpg" alt=""></span> fintech and
         <span class="pill" aria-hidden="true"><img src="assets/img/subloop-promo.jpg" alt=""></span> tech brands —
         paced for the first second, polished to the last frame, and delivered in English, Spanish and German.
       </p>
+    </section>
+
+    <!-- ============ FINDER — tell me what you need, see the matching work ============ -->
+    <section class="finder wrap" id="finder" aria-labelledby="finder-title">
+      <div class="finder__head">
+        <p class="kicker mono" data-reveal><span>→</span>Start here</p>
+        <h2 class="finder__title" id="finder-title" data-split>What are you <em>looking for?</em></h2>
+      </div>
+      <div class="finder__tabs" role="tablist" aria-label="What you need" data-reveal>
+        <button type="button" role="tab" id="need-crypto" data-need="crypto" aria-selected="true" aria-controls="finder-panel">Crypto &amp; finance shorts</button>
+        <button type="button" role="tab" id="need-promo" data-need="promo" aria-selected="false" aria-controls="finder-panel">A product launch video</button>
+        <button type="button" role="tab" id="need-thumb" data-need="thumb" aria-selected="false" aria-controls="finder-panel">Thumbnails</button>
+        <button type="button" role="tab" id="need-web" data-need="web" aria-selected="false" aria-controls="finder-panel">A website</button>
+      </div>
+      <div class="finder__panel" id="finder-panel" role="tabpanel" aria-labelledby="need-crypto" data-reveal>
+        <div class="finder__copy">
+          <p class="finder__blurb">Vertical explainers that turn charts and headlines into something people watch to the end.</p>
+          <ul class="finder__list">
+            <li>Animated charts, data cards and kinetic captions</li>
+            <li>Localised per market — English, Spanish, German</li>
+            <li>9:16 exports ready for TikTok, Reels and Shorts</li>
+          </ul>
+          <div class="finder__ctas">
+            <a class="btn" href="#contact" data-finder-start data-magnetic><span>Start a project like this</span></a>
+            <a class="btn btn--ghost" href="#work-crypto" data-finder-more data-magnetic><span>See all crypto work</span></a>
+          </div>
+        </div>
+        <div class="finder__examples" aria-label="Examples"></div>
+      </div>
     </section>
 
     <!-- ============ WORK ============ -->
@@ -160,35 +192,54 @@
         <p class="section-head__note" data-reveal>Hover to preview — tap or click to watch with sound.</p>
       </header>
 
-      <!-- Featured -->
-      <article class="feature wrap" data-video="assets/video/why-not-you.mp4" data-title="“Why Not You?” — Kinetic-type edit">
-        <div class="media media--4x3 feature__media" data-reveal="mask">
-          <button class="media__btn" aria-label="Play: Why Not You? kinetic-type edit">
-            <img src="assets/img/why-not-you.jpg" alt="“You can change your life” in bold type over a soldier running down a road" loading="lazy">
-            <span class="media__tc mono">00:23</span>
-            <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
-          </button>
+      <!-- Featured: one story, two markets -->
+      <div class="feature feature--duo wrap" id="work-featured">
+        <div class="feature__phones">
+          <article class="duo-phone" id="btc-en" data-cat="crypto" data-video="assets/video/btc-six-weeks-en.mp4" data-title="Six Red Weeks — Bitcoin breakdown (EN)" data-reveal>
+            <div class="media media--9x16">
+              <button class="media__btn" aria-label="Play: Six Red Weeks, Bitcoin breakdown in English">
+                <img src="assets/img/btc-six-weeks-en.jpg" alt="Six falling red bars numbered one to six under the headline 6 weeks down" loading="lazy">
+                <span class="media__tc mono">00:53</span>
+                <span class="media__lang mono">EN</span>
+                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+          </article>
+          <article class="duo-phone" id="btc-es" data-cat="crypto" data-video="assets/video/btc-six-weeks-es.mp4" data-title="6 semanas en rojo — Bitcoin breakdown (ES)" data-speed="0.05" data-reveal>
+            <div class="media media--9x16">
+              <button class="media__btn" aria-label="Play: 6 semanas en rojo, Bitcoin breakdown in Spanish">
+                <img src="assets/img/btc-six-weeks-es.jpg" alt="Six red bars numbered one to six under the Spanish headline 6 semanas en rojo" loading="lazy">
+                <span class="media__tc mono">01:09</span>
+                <span class="media__lang mono">ES</span>
+                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
+              </button>
+            </div>
+          </article>
         </div>
         <div class="feature__panel" data-reveal data-speed="-0.06">
-          <p class="kicker mono"><span class="rec" aria-hidden="true"></span>Featured — personal favourite</p>
-          <h3 class="feature__title">“Why Not <em>You?</em>”</h3>
+          <p class="kicker mono"><span class="rec" aria-hidden="true"></span>Featured — one story, two markets</p>
+          <h3 class="feature__title">Six Red <em>Weeks.</em></h3>
           <p>
-            A motivational edit built on kinetic typography — every word landed on the voiceover,
-            a desaturated grade broken by hits of colour, and gameplay cut so the story reads even with the sound off.
+            A Bitcoin market breakdown told entirely in motion graphics — animated charts, ETF-flow data cards
+            and captions timed to the voiceover. Then rebuilt for a Spanish-speaking audience with its own look,
+            pacing and caption timing, not just translated subtitles.
           </p>
-          <ul class="tags mono"><li>Kinetic type</li><li>Premiere Pro</li><li>After Effects</li><li>Grade</li></ul>
-          <button class="btn feature__cta" type="button" data-magnetic><span>Watch with sound</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></button>
+          <ul class="tags mono"><li>Motion graphics</li><li>Data visualisation</li><li>Kinetic captions</li><li>EN · ES</li></ul>
+          <div class="feature__ctas">
+            <button class="btn" type="button" data-play="#btc-en" data-magnetic><span>Watch in English</span><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></button>
+            <button class="btn btn--ghost" type="button" data-play="#btc-es" data-magnetic><span>Ver en español</span></button>
+          </div>
         </div>
-      </article>
+      </div>
 
       <!-- Motion graphics -->
-      <div class="chapter wrap">
+      <div class="chapter wrap" id="work-promos">
         <header class="chapter__head" data-reveal>
           <span class="mono">A</span>
           <h3>Motion graphics &amp; product promos</h3>
         </header>
         <div class="duo">
-          <article class="piece piece--lg" data-video="assets/video/slash-promo.mp4" data-title="Slash — Product launch spot">
+          <article class="piece piece--lg" data-cat="promo" data-video="assets/video/slash-promo.mp4" data-title="Slash — Product launch spot">
             <div class="media media--16x9" data-reveal="mask">
               <button class="media__btn" aria-label="Play: Slash product launch spot">
                 <img src="assets/img/slash-promo.jpg" alt="Gold virtual cards floating over a dark fintech dashboard" loading="lazy">
@@ -203,7 +254,7 @@
             </div>
           </article>
 
-          <article class="piece piece--sm" data-video="assets/video/subloop-promo.mp4" data-title="Subloop — SaaS product promo" data-speed="0.07">
+          <article class="piece piece--sm" data-cat="promo" data-video="assets/video/subloop-promo.mp4" data-title="Subloop — SaaS product promo" data-speed="0.07">
             <div class="media media--16x9" data-reveal="mask">
               <button class="media__btn" aria-label="Play: Subloop SaaS product promo">
                 <img src="assets/img/subloop-promo.jpg" alt="Red glass subscription cards stacked in a dark scene" loading="lazy">
@@ -221,14 +272,14 @@
       </div>
 
       <!-- Crypto shorts — a fanned hand of phones -->
-      <div class="chapter chapter--fan">
+      <div class="chapter chapter--fan" id="work-crypto">
         <header class="chapter__head wrap" data-reveal>
           <span class="mono">B</span>
           <h3>Crypto &amp; finance motion graphics</h3>
           <p class="chapter__aside mono">Vertical · TikTok, Reels, Shorts · EN / ES / DE</p>
         </header>
         <div class="fan" data-fan>
-          <article class="phone" data-video="assets/video/ai-jobs-explainer.mp4" data-title="AI vs. Jobs — Crypto motion graphics" style="--i:0">
+          <article class="phone" data-cat="crypto" data-video="assets/video/ai-jobs-explainer.mp4" data-title="AI vs. Jobs — Crypto motion graphics" style="--i:0">
             <div class="media media--9x16">
               <button class="media__btn" aria-label="Play: AI vs. Jobs, crypto motion graphics">
                 <img src="assets/img/ai-jobs-explainer.jpg" alt="Man at a mic with an AI voice interface overlay" loading="lazy">
@@ -239,7 +290,7 @@
             <div class="phone__cap"><h4>AI vs. Jobs</h4><p>News compositing and captions paced for retention.</p></div>
           </article>
 
-          <article class="phone" data-video="assets/video/btc-pump-en.mp4" data-title="The BTC Pump — Crypto explainer" style="--i:1">
+          <article class="phone" data-cat="crypto" data-video="assets/video/btc-pump-en.mp4" data-title="The BTC Pump — Crypto explainer" style="--i:1">
             <div class="media media--9x16">
               <button class="media__btn" aria-label="Play: The BTC Pump, crypto explainer">
                 <img src="assets/img/btc-pump-en.jpg" alt="Warning sign beside a Bitcoin coin, captioned Pay attention" loading="lazy">
@@ -251,7 +302,7 @@
             <div class="phone__cap"><h4>The BTC Pump</h4><p>A macro-to-market story told in under a minute.</p></div>
           </article>
 
-          <article class="phone" data-video="assets/video/xrp-2026-en.mp4" data-title="XRP 2026 — Chart breakdown" data-langs='{"EN":["assets/video/xrp-2026-en.mp4","assets/img/xrp-2026-en.jpg"],"ES":["assets/video/xrp-2026-es.mp4","assets/img/xrp-2026-es.jpg"]}' style="--i:2">
+          <article class="phone" data-cat="crypto" data-video="assets/video/xrp-2026-en.mp4" data-title="XRP 2026 — Chart breakdown" data-langs='{"EN":["assets/video/xrp-2026-en.mp4","assets/img/xrp-2026-en.jpg"],"ES":["assets/video/xrp-2026-es.mp4","assets/img/xrp-2026-es.jpg"]}' style="--i:2">
             <div class="media media--9x16">
               <button class="media__btn" aria-label="Play: XRP 2026 chart breakdown">
                 <img src="assets/img/xrp-2026-en.jpg" alt="XRP logo over a rising green chart line" loading="lazy">
@@ -267,7 +318,7 @@
             </div>
           </article>
 
-          <article class="phone" data-video="assets/video/btc-dominance-de.mp4" data-title="Bitcoin Dominance — German edition" style="--i:3">
+          <article class="phone" data-cat="crypto" data-video="assets/video/btc-dominance-de.mp4" data-title="Bitcoin Dominance — German edition" style="--i:3">
             <div class="media media--9x16">
               <button class="media__btn" aria-label="Play: Bitcoin dominance, German edition">
                 <img src="assets/img/btc-dominance-de.jpg" alt="Glowing smiley orb above a grid of crypto logos" loading="lazy">
@@ -281,57 +332,18 @@
         </div>
       </div>
 
-      <!-- Gaming -->
-      <div class="chapter wrap">
+      <!-- Thumbnails -->
+      <div class="chapter wrap chapter--stills" id="work-thumbs">
         <header class="chapter__head" data-reveal>
           <span class="mono">C</span>
-          <h3>Gaming edits — Call of Duty: Mobile</h3>
-        </header>
-        <div class="duo duo--flip">
-          <article class="piece piece--sm" data-video="assets/video/codm-bye.mp4" data-title="“BYE” — CODM sniper montage" data-speed="0.07">
-            <div class="media media--16x9" data-reveal="mask">
-              <button class="media__btn" aria-label="Play: BYE, CODM sniper montage">
-                <img src="assets/img/codm-bye.jpg" alt="Sniper scope view in a sunny Call of Duty: Mobile map" loading="lazy">
-                <span class="media__tc mono">00:24</span>
-                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
-              </button>
-            </div>
-            <div class="piece__cap" data-reveal>
-              <h4>“BYE”</h4>
-              <p>Sniper montage — whip pans, scope zooms and a colour-punched grade.</p>
-              <ul class="tags mono"><li>Premiere Pro</li><li>After Effects</li><li>Grade</li></ul>
-            </div>
-          </article>
-
-          <article class="piece piece--lg" data-video="assets/video/codm-the-boys.mp4" data-title="CODM × The Boys — Event edit">
-            <div class="media media--16x9" data-reveal="mask">
-              <button class="media__btn" aria-label="Play: CODM × The Boys event edit">
-                <img src="assets/img/codm-the-boys.jpg" alt="Homelander firing heat vision in Call of Duty: Mobile" loading="lazy">
-                <span class="media__tc mono">00:31</span>
-                <span class="media__play"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg></span>
-              </button>
-            </div>
-            <div class="piece__cap" data-reveal>
-              <h4>CODM × The Boys</h4>
-              <p>Event edit — speed ramps, flash transitions and beat-synced cuts.</p>
-              <ul class="tags mono"><li>Premiere Pro</li><li>Velocity</li><li>SFX</li></ul>
-            </div>
-          </article>
-        </div>
-      </div>
-
-      <!-- Thumbnails -->
-      <div class="chapter wrap chapter--stills">
-        <header class="chapter__head" data-reveal>
-          <span class="mono">D</span>
           <h3>Thumbnails</h3>
           <p class="chapter__aside mono">Designed alongside the edit</p>
         </header>
         <div class="stills" data-stills>
-          <button class="still still--a" data-image="assets/img/thumbnail-arc-wallet.jpg" aria-label="View thumbnail: Arc Wallet — Debt to zero">
+          <button class="still still--a" data-cat="thumb" data-title="Arc Wallet — “Debt to $0” thumbnail" data-image="assets/img/thumbnail-arc-wallet.jpg" aria-label="View thumbnail: Arc Wallet — Debt to zero">
             <img src="assets/img/thumbnail-arc-wallet.jpg" alt="Fintech thumbnail: Debt $3,000 to Debt $0 with an Arc Wallet payoff plan on a phone" loading="lazy">
           </button>
-          <button class="still still--b" data-image="assets/img/thumbnail-ep64-toned-lincoln-cents.jpg" aria-label="View thumbnail: Podcast episode 64">
+          <button class="still still--b" data-cat="thumb" data-title="Podcast Ep. 64 — Toned Lincoln cents thumbnail" data-image="assets/img/thumbnail-ep64-toned-lincoln-cents.jpg" aria-label="View thumbnail: Podcast episode 64">
             <img src="assets/img/thumbnail-ep64-toned-lincoln-cents.jpg" alt="Podcast thumbnail: toned Lincoln cents, episode 64" loading="lazy">
           </button>
         </div>
@@ -433,7 +445,7 @@
 
           <div class="monitor" data-step="0" aria-hidden="true">
             <div class="monitor__screen">
-              <img src="assets/img/codm-the-boys.jpg" alt="" loading="lazy">
+              <img src="assets/img/process-frame.jpg" alt="" loading="lazy">
               <div class="monitor__grid"></div>
               <div class="monitor__guides"><span class="g916">9:16</span><span class="g11">1:1</span></div>
               <span class="monitor__label mono"><span class="rec"></span><b>Brief</b></span>
@@ -538,7 +550,7 @@
               <div class="choices">
                 <label><input type="radio" name="project_type" value="Short-form edits" checked><span>Short-form</span></label>
                 <label><input type="radio" name="project_type" value="Motion graphics"><span>Motion graphics</span></label>
-                <label><input type="radio" name="project_type" value="Gaming edit"><span>Gaming</span></label>
+                <label><input type="radio" name="project_type" value="Crypto content"><span>Crypto content</span></label>
                 <label><input type="radio" name="project_type" value="Thumbnails"><span>Thumbnails</span></label>
                 <label><input type="radio" name="project_type" value="Website"><span>Website</span></label>
               </div>
@@ -598,6 +610,32 @@
       </div>
     </section>
   </main>
+
+  <!-- ============ TIMELINE DOCK — the page as an edit; click a clip or drag the ruler ============ -->
+  <nav class="dock" aria-label="Page timeline">
+    <span class="dock__tc mono" aria-hidden="true">00:00:00</span>
+    <div class="dock__body">
+      <div class="dock__ruler" role="slider" tabindex="0" aria-label="Scroll position" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"></div>
+      <div class="dock__clips"></div>
+      <span class="dock__head" aria-hidden="true"></span>
+    </div>
+  </nav>
+  <div class="progress" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span></span></div>
+  <div class="toast mono" role="status" aria-live="polite"></div>
+
+  <!-- ============ PALETTE — search everything ============ -->
+  <dialog class="palette" id="palette" aria-label="Search this site">
+    <div class="palette__box">
+      <div class="palette__field">
+        <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="7" cy="7" r="4.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10.5 10.5 14 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input id="palette-input" type="text" placeholder="Search work, sections, actions…" autocomplete="off" spellcheck="false" role="combobox" aria-expanded="true" aria-controls="palette-list" aria-autocomplete="list">
+        <kbd>Esc</kbd>
+      </div>
+      <div class="palette__list" id="palette-list" role="listbox" aria-label="Results"></div>
+      <p class="palette__hint mono"><span>↑↓ move</span><span>↵ open</span><span>esc close</span></p>
+    </div>
+  </dialog>
 
   <!-- ============ PLAYER ============ -->
   <dialog class="player" id="player" aria-label="Media viewer">
