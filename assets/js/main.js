@@ -1,91 +1,51 @@
-/* Bobola Alabi — Portfolio interactions
-   One scroll loop drives every choreographed moment; everything else is event-driven. */
+/* Bobola Alabi — Portfolio ("Live Wall")
+   The work is always playing, and the page takes its colours from what you're looking at. */
 (() => {
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const root = document.documentElement;
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
-  const easeInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const make = (tag, props = {}, ...kids) => {
+    const n = Object.assign(document.createElement(tag), props);
+    n.append(...kids);
+    return n;
+  };
 
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const finePointer = matchMedia("(hover: hover) and (pointer: fine)").matches;
-  const desktopMQ = matchMedia("(min-width: 1081px)");
-  const fxEnabled = () => !reduceMotion && desktopMQ.matches;
+  const EMAIL = "bobzycruiz2004@gmail.com";
 
-  /* ---------- ambient light: each media glows with its own poster ---------- */
-  const setGlow = (media) => {
-    const img = $("img", media);
-    if (img) media.style.setProperty("--poster", `url("${img.src}")`);
-  };
-  $$(".media").forEach(setGlow);
-
-  /* ---------- split headings into words ---------- */
-  let wordIndex = 0;
-  const splitInto = (node, inEm, makeWord) => {
-    [...node.childNodes].forEach((child) => {
-      if (child.nodeType === Node.TEXT_NODE) {
-        const frag = document.createDocumentFragment();
-        child.textContent.split(/(\s+)/).forEach((tok) => {
-          if (!tok) return;
-          if (/^\s+$/.test(tok)) frag.appendChild(document.createTextNode(" "));
-          else frag.appendChild(makeWord(tok, inEm));
-        });
-        child.replaceWith(frag);
-      } else if (child.nodeType === Node.ELEMENT_NODE && !child.classList.contains("pill")) {
-        splitInto(child, inEm || child.tagName === "EM", makeWord);
-      }
-    });
+  const toastEl = $(".toast");
+  let toastTimer = null;
+  const toast = (msg) => {
+    toastEl.textContent = msg;
+    toastEl.classList.add("is-on");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toastEl.classList.remove("is-on"), 2200);
   };
 
-  $$("[data-split]").forEach((el) => {
-    wordIndex = 0;
-    splitInto(el, false, (word, inEm) => {
-      const w = document.createElement("span");
-      const i = document.createElement("span");
-      w.className = "w";
-      i.className = inEm ? "w-i w-em" : "w-i";
-      i.style.setProperty("--wi", wordIndex++);
-      i.textContent = word;
-      w.appendChild(i);
-      return w;
-    });
-  });
+  /* ==========================================================
+     THEME — two accent colours that follow the visitor's attention
+     ========================================================== */
+  const themeOf = (node) => node.dataset.theme.split(",");
+  const tileTheme = (node) => [node.style.getPropertyValue("--c1"), node.style.getPropertyValue("--c2")];
+  const hero = $(".hero");
+  let heroTheme = themeOf(hero);
+  let sectionTheme = heroTheme;
+  let hoverTheme = null;
+  const applyTheme = () => {
+    const [a, b] = hoverTheme || sectionTheme;
+    root.style.setProperty("--a", a);
+    root.style.setProperty("--b", b);
+  };
 
-  /* statement: words (and inline media pills) light up in reading order */
-  const statement = $("[data-words]");
-  splitInto(statement, false, (word) => {
-    const s = document.createElement("span");
-    s.className = "wd";
-    s.textContent = word;
-    return s;
-  });
-  $$(".pill", statement).forEach((p) => p.classList.add("wd"));
-  const statementWords = $$(".wd", statement);
-
-  /* ---------- reveal on enter ---------- */
-  $$("[data-reveal]").forEach((el) => {
-    const siblings = [...el.parentElement.children].filter((c) => c.hasAttribute("data-reveal"));
-    el.style.setProperty("--rd", `${siblings.indexOf(el) * 90}ms`);
-  });
-  const revealer = new IntersectionObserver(
-    (entries) =>
-      entries.forEach((e) => {
-        if (!e.isIntersecting) return;
-        e.target.classList.add("is-in");
-        revealer.unobserve(e.target);
-      }),
-    { rootMargin: "0px 0px -10% 0px", threshold: 0.12 }
-  );
-  $$("[data-reveal], [data-split], [data-fan], [data-stills]").forEach((el) => revealer.observe(el));
-
-  /* ---------- header: sliding nav pill, active section, mobile menu ---------- */
+  /* ---------- header: sliding pill, active section, mobile menu ---------- */
   const header = $(".header");
   const nav = $(".nav");
   const navPill = $(".nav__pill");
   const navLinks = $$(".nav a");
   let activeLink = null;
-
   const movePill = (link) => {
     if (!link) return (navPill.style.opacity = 0);
     navPill.style.opacity = 1;
@@ -95,17 +55,21 @@
   navLinks.forEach((a) => a.addEventListener("mouseenter", () => movePill(a)));
   nav.addEventListener("mouseleave", () => movePill(activeLink));
 
+  let activeSection = hero;
   const sectionObserver = new IntersectionObserver(
     (entries) =>
       entries.forEach((e) => {
         if (!e.isIntersecting) return;
+        activeSection = e.target;
+        sectionTheme = e.target === hero ? heroTheme : themeOf(e.target);
+        applyTheme();
         activeLink = navLinks.find((a) => a.getAttribute("href") === "#" + e.target.id) || null;
         navLinks.forEach((a) => a.classList.toggle("is-active", a === activeLink));
         if (!nav.matches(":hover")) movePill(activeLink);
       }),
     { rootMargin: "-45% 0px -50% 0px" }
   );
-  ["#top", "#work", "#services", "#process", "#about", "#contact"].forEach((id) => sectionObserver.observe($(id)));
+  $$("[data-theme]").forEach((s) => sectionObserver.observe(s));
 
   const menuBtn = $(".menu-btn");
   const setMenu = (open) => {
@@ -118,174 +82,55 @@
   $$(".mobile-nav a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
   addEventListener("keydown", (e) => e.key === "Escape" && header.classList.contains("menu-open") && setMenu(false));
 
-  /* ---------- running timecode (25fps) ---------- */
-  const tcEl = $("#timecode");
-  const t0 = performance.now();
-  const pad = (n) => String(n).padStart(2, "0");
-  if (!reduceMotion) {
-    const tick = () => {
-      const t = (performance.now() - t0) / 1000;
-      tcEl.textContent = `${pad(Math.floor(t / 3600))}:${pad(Math.floor(t / 60) % 60)}:${pad(Math.floor(t) % 60)}:${pad(Math.floor((t % 1) * 25))}`;
-      requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }
-
-  /* ---------- hero video: only plays while visible ---------- */
-  const hero = $(".hero");
-  const heroVideo = $(".lens__video");
-  let heroVisible = true;
-  const resumeHero = () => {
-    if (!reduceMotion && heroVisible && !$("#player").open) heroVideo.play().catch(() => {});
-  };
-  if (reduceMotion) {
-    heroVideo.removeAttribute("autoplay");
-    heroVideo.pause();
-  } else {
-    new IntersectionObserver(([e]) => {
-      heroVisible = e.isIntersecting;
-      heroVisible ? resumeHero() : heroVideo.pause();
-    }).observe(hero);
-  }
+  /* ---------- reveal on enter ---------- */
+  $$("[data-reveal]").forEach((node) => {
+    const siblings = [...node.parentElement.children].filter((c) => c.hasAttribute("data-reveal"));
+    node.style.setProperty("--rd", `${siblings.indexOf(node) * 80}ms`);
+  });
+  const revealer = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("is-in");
+        revealer.unobserve(e.target);
+      }),
+    { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+  );
+  $$("[data-reveal], .wall").forEach((node) => revealer.observe(node));
 
   /* ==========================================================
-     SCROLL CHOREOGRAPHY
-     ========================================================== */
-  const heroContent = $(".hero__content");
-  const hudEl = $(".lens__hud");
-  const process = $("[data-process]");
-  const monitor = $(".monitor");
-  const monitorLabel = $(".monitor__label b");
-  const steps = $$(".step");
-  const clips = $$(".clip");
-  const stepNames = ["Brief", "Rough cut", "Motion & grade", "Deliver"];
-  const blades = $(".sculpture__blades");
-  const portrait = $(".lensring__photo img");
-  const parallaxEls = $$("[data-speed]");
-
-  const setStep = (i) => {
-    if (monitor.dataset.step === String(i)) return;
-    monitor.dataset.step = i;
-    monitorLabel.textContent = stepNames[i];
-    steps.forEach((s, k) => s.classList.toggle("is-active", k === i));
-    clips.forEach((c, k) => {
-      c.classList.toggle("is-on", k === i);
-      c.classList.toggle("is-done", k < i);
-    });
-  };
-
-  const sectionProgress = (el) => {
-    const r = el.getBoundingClientRect();
-    return clamp(-r.top / (r.height - innerHeight));
-  };
-
-  function heroFrame(vw, vh) {
-    const p = sectionProgress(hero);
-    const e = easeInOut(clamp(p / 0.78));
-    // the lens starts as a floating capsule on the right and opens to fill the frame
-    const s = { t: vh * 0.19, r: Math.max(24, vw * 0.05), b: vh * 0.12, l: vw * 0.6 };
-    const f = { t: 88, r: 24, b: 24, l: 24 };
-    const t = lerp(s.t, f.t, e), r = lerp(s.r, f.r, e), b = lerp(s.b, f.b, e), l = lerp(s.l, f.l, e);
-    const startRad = Math.min(vw - s.l - s.r, vh - s.t - s.b) / 2;
-    const style = hero.style;
-    style.setProperty("--lt", `${t}px`);
-    style.setProperty("--lr", `${r}px`);
-    style.setProperty("--lb", `${b}px`);
-    style.setProperty("--ll", `${l}px`);
-    style.setProperty("--lrad", `${lerp(startRad, 28, e)}px`);
-    const hud = clamp((p - 0.68) / 0.2);
-    style.setProperty("--hud", hud.toFixed(3));
-    hudEl.style.pointerEvents = hud > 0.5 ? "" : "none";
-    style.setProperty("--cue", (1 - clamp(p / 0.06)).toFixed(3));
-    heroContent.style.setProperty("--c-op", (1 - clamp(p / 0.32)).toFixed(3));
-    heroContent.style.setProperty("--c-y", (-p * 160).toFixed(1));
-    heroContent.style.visibility = p > 0.34 ? "hidden" : "";
-  }
-
-  function processFrame() {
-    const p = sectionProgress(process);
-    $(".playhead").style.setProperty("--p", p.toFixed(4));
-    setStep(Math.min(3, Math.floor(p * 4)));
-  }
-
-  function statementFrame(vh) {
-    const r = statement.getBoundingClientRect();
-    const p = clamp((vh * 0.82 - r.top) / (r.height + vh * 0.3));
-    const lit = Math.round(p * statementWords.length);
-    statementWords.forEach((w, i) => w.classList.toggle("is-lit", i < lit));
-  }
-
-  function ambientFrame(vh) {
-    if (blades) blades.style.setProperty("--spin", (scrollY * 0.06).toFixed(2));
-    if (portrait) {
-      const r = portrait.parentElement.getBoundingClientRect();
-      portrait.style.setProperty("--py", (((r.top + r.height / 2 - vh / 2) / vh) * -36).toFixed(1));
-    }
-    parallaxEls.forEach((el) => {
-      const r = el.getBoundingClientRect();
-      const offset = (r.top + r.height / 2 - vh / 2) * parseFloat(el.dataset.speed);
-      el.style.translate = `0 ${offset.toFixed(1)}px`;
-    });
-  }
-
-  let ticking = false;
-  function frame() {
-    ticking = false;
-    const vw = innerWidth, vh = innerHeight;
-    if (root.classList.contains("fx-hero")) heroFrame(vw, vh);
-    if (root.classList.contains("fx-process")) processFrame();
-    if (!reduceMotion) statementFrame(vh);
-    if (fxEnabled()) ambientFrame(vh);
-    interactiveFrame();
-  }
-  const requestFrame = () => {
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(frame);
-    }
-  };
-
-  /* mobile / tablet: the process story plays itself when it comes into view */
-  let autoTimer = null;
-  const autoStory = new IntersectionObserver(([e]) => {
-    clearInterval(autoTimer);
-    if (!e.isIntersecting || root.classList.contains("fx-process")) return;
-    let i = 0;
-    setStep(0);
-    $(".playhead").style.setProperty("--p", 0.06);
-    autoTimer = setInterval(() => {
-      i = (i + 1) % 4;
-      setStep(i);
-      $(".playhead").style.setProperty("--p", (i + 0.5) / 4);
-    }, 2200);
-  }, { threshold: 0.35 });
-
-  function applyMode() {
-    const fx = fxEnabled();
-    root.classList.toggle("fx-hero", fx);
-    root.classList.toggle("fx-process", fx);
-    root.classList.toggle("fx-dock", desktopMQ.matches);
-    if (!fx) {
-      heroContent.style.visibility = "";
-      parallaxEls.forEach((el) => (el.style.translate = ""));
-      if (reduceMotion) {
-        setStep(2);
-        $(".playhead").style.setProperty("--p", 0.62);
-        statementWords.forEach((w) => w.classList.add("is-lit"));
-      }
-    }
-    if (!reduceMotion) autoStory.observe(monitor);
-    requestFrame();
-  }
-  applyMode();
-  desktopMQ.addEventListener("change", applyMode);
-  addEventListener("scroll", requestFrame, { passive: true });
-  addEventListener("resize", requestFrame);
-
-  /* ==========================================================
-     MEDIA: hover preview, tilt, light, player
+     LIVE VIDEO — loops load when they scroll into view and pause when they leave
      ========================================================== */
   const player = $("#player");
+  const liveHosts = new Set();
+  const startLive = (host) => {
+    const v = $("video", host);
+    if (!v || reduceMotion || player.open) return;
+    const src = host.dataset.preview || v.dataset.src;
+    if (src && v.getAttribute("src") !== src) v.setAttribute("src", src);
+    v.play().then(() => host.classList.add("is-live")).catch(() => {});
+  };
+  const stopLive = (host) => $("video", host)?.pause();
+  const liveObserver = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          liveHosts.add(e.target);
+          startLive(e.target);
+        } else {
+          liveHosts.delete(e.target);
+          stopLive(e.target);
+        }
+      }),
+    { rootMargin: "80px", threshold: 0.15 }
+  );
+  $$(".tile[data-preview], .stack__card, .reelpill").forEach((host) => liveObserver.observe(host));
+  // browsers pause muted loops in background tabs; pick them back up on return
+  document.addEventListener("visibilitychange", () => !document.hidden && liveHosts.forEach(startLive));
+
+  /* ==========================================================
+     PLAYER — full cut, with sound
+     ========================================================== */
   const stage = $("#player-stage");
   const playerTitle = $("#player-title");
   let lastFocus = null;
@@ -296,127 +141,201 @@
     player.classList.toggle("is-vertical", Boolean(vertical));
     playerTitle.textContent = title || "";
     if (video) {
-      const v = document.createElement("video");
-      Object.assign(v, { src: video, controls: true, playsInline: true, autoplay: true });
+      const v = make("video", { src: video, controls: true, playsInline: true, autoplay: true });
       if (poster) v.poster = poster;
       stage.appendChild(v);
     } else {
-      const img = document.createElement("img");
-      Object.assign(img, { src: image, alt: title || "" });
-      stage.appendChild(img);
+      stage.appendChild(make("img", { src: image, alt: title || "" }));
     }
     player.showModal();
     document.body.style.overflow = "hidden";
-    heroVideo.pause();
+    liveHosts.forEach(stopLive);
   }
   player.addEventListener("close", () => {
-    const v = $("video", stage);
-    if (v) v.pause();
+    $("video", stage)?.pause();
     stage.innerHTML = "";
     document.body.style.overflow = "";
     if (lastFocus) lastFocus.focus({ preventScroll: true });
-    resumeHero();
+    liveHosts.forEach(startLive);
   });
-
-  /* ---------- showreel: the hero loop is a silent preview; these open the full cut with sound ---------- */
-  const playReel = () =>
-    openPlayer({ video: "assets/video/showreel.mp4", poster: "assets/img/showreel.jpg", title: "Showreel 2026 — ConConAI motion graphics" });
-  $$("[data-reel]").forEach((b) =>
-    b.addEventListener("click", (e) => {
-      e.stopPropagation();
-      playReel();
-    })
-  );
-  $(".lens__frame").addEventListener("click", playReel);
   $("#player-close").addEventListener("click", () => player.close());
   player.addEventListener("click", (e) => {
     if ([player, stage, $(".player__inner")].includes(e.target)) player.close();
   });
 
-  $$("[data-video]").forEach((item) => {
-    const media = $(".media", item);
-    const btn = $(".media__btn", item);
-    const img = $("img", btn);
-    let preview = null;
+  /* ==========================================================
+     WALL — tiles, tilt, colour, filters
+     ========================================================== */
+  const wall = $("#wall");
+  const tiles = $$(".tile", wall);
+  const projects = tiles.filter((t) => t.dataset.title);
 
+  tiles.forEach((tile, i) => {
+    tile.style.setProperty("--i", i);
+    tile.style.viewTransitionName = `tile-${i}`;
+  });
+
+  projects.forEach((tile) => {
+    const btn = $(".tile__btn", tile);
+    const img = $("img", btn);
+    btn.dataset.cursor = tile.dataset.video ? "Play" : "View";
+
+    btn.addEventListener("click", () =>
+      openPlayer(
+        tile.dataset.video
+          ? { video: tile.dataset.video, poster: img.src, title: tile.dataset.title, vertical: tile.classList.contains("tile--v") }
+          : { image: tile.dataset.image, title: tile.dataset.title }
+      )
+    );
+
+    tile.addEventListener("pointerenter", () => {
+      hoverTheme = tileTheme(tile);
+      applyTheme();
+    });
+    tile.addEventListener("pointerleave", () => {
+      hoverTheme = null;
+      applyTheme();
+      tile.style.setProperty("--rx", "0deg");
+      tile.style.setProperty("--ry", "0deg");
+    });
     if (finePointer && !reduceMotion) {
-      btn.addEventListener("pointerenter", () => {
-        if (!preview) {
-          preview = document.createElement("video");
-          Object.assign(preview, { muted: true, loop: true, playsInline: true, preload: "auto" });
-          btn.appendChild(preview);
-        }
-        if (preview.dataset.src !== item.dataset.video) {
-          preview.src = preview.dataset.src = item.dataset.video;
-        }
-        preview.play().then(() => btn.classList.add("is-playing")).catch(() => {});
-      });
-      btn.addEventListener("pointermove", (e) => {
-        const r = btn.getBoundingClientRect();
+      tile.addEventListener("pointermove", (e) => {
+        const r = tile.getBoundingClientRect();
         const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
-        btn.style.setProperty("--mx", `${x * 100}%`);
-        btn.style.setProperty("--my", `${y * 100}%`);
-        if (!item.classList.contains("phone")) {
-          btn.style.setProperty("--rx", `${(0.5 - y) * 5}deg`);
-          btn.style.setProperty("--ry", `${(x - 0.5) * 7}deg`);
-        }
-      });
-      btn.addEventListener("pointerleave", () => {
-        btn.classList.remove("is-playing");
-        btn.style.setProperty("--rx", "0deg");
-        btn.style.setProperty("--ry", "0deg");
-        if (preview) preview.pause();
+        tile.style.setProperty("--mx", `${x * 100}%`);
+        tile.style.setProperty("--my", `${y * 100}%`);
+        tile.style.setProperty("--rx", `${(0.5 - y) * 6}deg`);
+        tile.style.setProperty("--ry", `${(x - 0.5) * 8}deg`);
       });
     }
 
-    const play = () => {
-      if (preview) preview.pause();
-      btn.classList.remove("is-playing");
-      openPlayer({ video: item.dataset.video, poster: img.src, title: item.dataset.title, vertical: media.classList.contains("media--9x16") });
-    };
-    btn.addEventListener("click", play);
-
     /* language versions (XRP EN / ES) */
-    const toggle = $(".lang-toggle", item);
+    const toggle = $(".lang-toggle", tile);
     if (toggle) {
-      const langs = JSON.parse(item.dataset.langs);
-      const baseTitle = item.dataset.title;
+      const langs = JSON.parse(tile.dataset.langs);
+      const baseTitle = tile.dataset.title;
       toggle.addEventListener("click", (e) => {
         const b = e.target.closest("button[data-lang]");
         if (!b) return;
-        const [video, poster] = langs[b.dataset.lang];
-        item.dataset.video = video;
-        item.dataset.title = `${baseTitle} (${b.dataset.lang})`;
+        const [video, poster, preview] = langs[b.dataset.lang];
+        Object.assign(tile.dataset, { video, preview, title: `${baseTitle} (${b.dataset.lang})` });
         img.src = poster;
-        setGlow(media);
+        startLive(tile);
         $$("button", toggle).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
       });
     }
   });
 
-  $$(".still").forEach((s) => s.addEventListener("click", () => openPlayer({ image: s.dataset.image, title: s.dataset.title || $("img", s).alt })));
+  const filterBtns = $$("[data-filter]");
+  filterBtns.forEach((b) => {
+    const n = b.dataset.filter === "all" ? projects.length : projects.filter((t) => t.dataset.cat === b.dataset.filter).length;
+    $("sup", b).textContent = String(n).padStart(2, "0");
+  });
+  const setFilter = (key) => {
+    const update = () => {
+      filterBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.filter === key)));
+      projects.forEach((t) => (t.hidden = key !== "all" && t.dataset.cat !== key));
+    };
+    if (document.startViewTransition && !reduceMotion && !document.hidden) {
+      // an interrupted morph is fine — the filter itself has already applied
+      const vt = document.startViewTransition(update);
+      vt.ready.catch(() => {});
+      vt.finished.catch(() => {});
+    } else update();
+  };
+  filterBtns.forEach((b) => b.addEventListener("click", () => setFilter(b.dataset.filter)));
 
-  /* ---------- light that follows the cursor (services) ---------- */
+  const openProject = (id) => $(`#${id} .tile__btn`).click();
+  $$("[data-reel]").forEach((b) => b.addEventListener("click", () => openProject("showreel")));
+
+  /* ==========================================================
+     HERO STACK — tap a side card to bring it forward; the front card plays
+     ========================================================== */
+  const stack = $("[data-stack]");
+  const cards = $$(".stack__card", stack);
+  let stackTimer = null;
+  let stackTouched = false;
+
+  const frontCard = () => cards.find((c) => c.dataset.pos === "0");
+  const syncStack = () => {
+    cards.forEach((c) => (c.dataset.cursor = c.dataset.pos === "0" ? "Play" : "Next"));
+    if (!stackTouched) return;
+    heroTheme = tileTheme(frontCard());
+    if (activeSection === hero) {
+      sectionTheme = heroTheme;
+      applyTheme();
+    }
+  };
+  const bringForward = (card) => {
+    const from = card.dataset.pos;
+    frontCard().dataset.pos = from;
+    card.dataset.pos = "0";
+    stackTouched = true;
+    syncStack();
+  };
+  const advance = () => bringForward(cards.find((c) => c.dataset.pos === "1"));
+  const autoplayStack = () => {
+    clearInterval(stackTimer);
+    if (!reduceMotion) stackTimer = setInterval(() => !stack.matches(":hover") && !player.open && !document.hidden && advance(), 4200);
+  };
+  cards.forEach((card) =>
+    card.addEventListener("click", () => {
+      if (card.dataset.pos === "0") return openProject(card.dataset.open);
+      bringForward(card);
+      autoplayStack();
+    })
+  );
+  syncStack();
+  new IntersectionObserver(([e]) => (e.isIntersecting ? autoplayStack() : clearInterval(stackTimer))).observe(stack);
+
+  if (finePointer && !reduceMotion) {
+    hero.addEventListener("pointermove", (e) => {
+      stack.style.setProperty("--px", ((e.clientX / innerWidth - 0.5) * 2).toFixed(3));
+      stack.style.setProperty("--py", ((e.clientY / innerHeight - 0.5) * 2).toFixed(3));
+    });
+  }
+
+  /* ==========================================================
+     SMALL LIVELY THINGS
+     ========================================================== */
+  /* light that follows the pointer inside service cards */
   if (finePointer) {
-    $$(".service").forEach((el) =>
-      el.addEventListener("pointermove", (e) => {
-        const r = el.getBoundingClientRect();
-        el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-        el.style.setProperty("--my", `${e.clientY - r.top}px`);
+    $$(".svc").forEach((card) =>
+      card.addEventListener("pointermove", (e) => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+        card.style.setProperty("--my", `${e.clientY - r.top}px`);
       })
     );
   }
 
-  /* ---------- magnetic buttons ---------- */
+  /* numbers count up when they come into view */
+  const counter = new IntersectionObserver(
+    (entries) =>
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        counter.unobserve(e.target);
+        const end = Number(e.target.dataset.count);
+        if (reduceMotion) return;
+        const t0 = performance.now();
+        const tick = (now) => {
+          const p = clamp((now - t0) / 1300);
+          e.target.textContent = Math.round(end * (1 - Math.pow(1 - p, 3)));
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      }),
+    { threshold: 0.6 }
+  );
+  $$("[data-count]").forEach((n) => counter.observe(n));
+
+  /* magnetic buttons */
   if (finePointer && !reduceMotion) {
     $$("[data-magnetic]").forEach((b) => {
       b.addEventListener("pointermove", (e) => {
         const r = b.getBoundingClientRect();
-        const dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
-        b.style.setProperty("--tx", `${dx * 0.22}px`);
-        b.style.setProperty("--ty", `${dy * 0.32}px`);
-        b.style.setProperty("--bx", `${e.clientX - r.left}px`);
-        b.style.setProperty("--by", `${e.clientY - r.top}px`);
+        b.style.setProperty("--tx", `${(e.clientX - (r.left + r.width / 2)) * 0.22}px`);
+        b.style.setProperty("--ty", `${(e.clientY - (r.top + r.height / 2)) * 0.32}px`);
       });
       b.addEventListener("pointerleave", () => {
         b.style.setProperty("--tx", "0px");
@@ -425,217 +344,74 @@
     });
   }
 
-  /* ---------- clock (Nigeria, WAT) + year ---------- */
-  const clock = $("#clock");
-  const fmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Africa/Lagos" });
-  const setClock = () => (clock.textContent = `${fmt.format(new Date())} WAT`);
-  setClock();
-  setInterval(setClock, 30000);
-  $("#year").textContent = new Date().getFullYear();
+  /* copy email */
+  const copyEmail = () => navigator.clipboard.writeText(EMAIL).then(() => toast("Email address copied"), () => toast(EMAIL));
+  $$("[data-copy]").forEach((b) => b.addEventListener("click", copyEmail));
 
-  /* ---------- contact form (Netlify Forms, with an email fallback so no message is lost) ---------- */
-  const form = $("#contact-form");
-  const status = $(".form__status", form);
-  const EMAIL = "bobzycruiz2004@gmail.com";
-
-  const emailFallback = (data) => {
-    const body = `${data.get("message")}\n\n— ${data.get("name")} (${data.get("email")})\nProject: ${data.get("project_type")}`;
-    const a = document.createElement("a");
-    a.className = "link";
-    a.href = `mailto:${EMAIL}?subject=${encodeURIComponent("Project enquiry — " + data.get("project_type"))}&body=${encodeURIComponent(body)}`;
-    a.textContent = "Tap here to send it by email instead";
-    return a;
-  };
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const btn = $("button[type=submit]", form);
-    const label = $("span", btn);
-    const data = new FormData(form);
-    btn.disabled = true;
-    label.textContent = "Sending…";
-    status.className = "form__status mono";
-    status.textContent = "";
-    try {
-      const res = await fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: new URLSearchParams(data).toString(),
-      });
-      if (!res.ok) throw new Error(res.status);
-      form.reset();
-      status.classList.add("ok");
-      status.textContent = "Message sent — I’ll get back to you within 24 hours.";
-    } catch {
-      status.classList.add("err");
-      status.append("Couldn’t send right now — your message is still here. ", emailFallback(data), ".");
-    } finally {
-      btn.disabled = false;
-      label.textContent = "Send message";
-    }
-  });
+  /* reactive cursor: says what a click will do */
+  if (finePointer && !reduceMotion) {
+    root.classList.add("has-cursor");
+    const cursor = $(".cursor");
+    const label = $("span", cursor);
+    let cx = 0, cy = 0, tx = 0, ty = 0, moving = false;
+    const follow = () => {
+      cx = lerp(cx, tx, 0.24);
+      cy = lerp(cy, ty, 0.24);
+      cursor.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
+      moving = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.3;
+      if (moving) requestAnimationFrame(follow);
+    };
+    addEventListener("pointermove", (e) => {
+      if (e.pointerType !== "mouse") return;
+      tx = e.clientX;
+      ty = e.clientY;
+      if (!moving) {
+        moving = true;
+        requestAnimationFrame(follow);
+      }
+      const onControl = e.target.closest?.(".lang-toggle");
+      const text = onControl ? "" : e.target.closest?.("[data-cursor]")?.dataset.cursor;
+      cursor.classList.toggle("is-active", Boolean(text));
+      if (text) label.textContent = text;
+    }, { passive: true });
+    addEventListener("pointerdown", () => cursor.classList.add("is-down"));
+    addEventListener("pointerup", () => cursor.classList.remove("is-down"));
+    root.addEventListener("mouseleave", () => cursor.classList.remove("is-active"));
+    addEventListener("scroll", () => cursor.classList.remove("is-active"), { passive: true });
+  }
 
   /* ==========================================================
-     INTERACTIVE LAYER — catalogue, finder, palette, timeline dock, cursor
+     PALETTE — search work, sections and actions
      ========================================================== */
-  const el = (tag, props = {}, ...kids) => {
-    const n = Object.assign(document.createElement(tag), props);
-    n.append(...kids);
-    return n;
+  const KEYS = {
+    crypto: "crypto bitcoin btc xrp finance market short vertical tiktok reels shorts explainer",
+    promo: "promo product launch saas fintech app ui motion graphics showreel reel landscape",
+    thumb: "thumbnail youtube still design image",
   };
-
-  $$("[data-play]").forEach((b) => b.addEventListener("click", () => $(".media__btn", $(b.dataset.play)).click()));
-
-  const toastEl = $(".toast");
-  let toastTimer = null;
-  const toast = (msg) => {
-    toastEl.textContent = msg;
-    toastEl.classList.add("is-on");
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => toastEl.classList.remove("is-on"), 2200);
-  };
-
-  /* ---------- catalogue: everything a visitor can open, read from the page itself ---------- */
-  const CATS = {
-    crypto: { label: "Crypto & finance", keys: "crypto bitcoin btc xrp finance market short vertical tiktok reels shorts explainer" },
-    promo: { label: "Product promo", keys: "promo product launch saas fintech app ui motion graphics landscape" },
-    thumb: { label: "Thumbnail", keys: "thumbnail youtube still design image" },
-  };
-  const catalogue = [
-    {
-      cat: "promo", vertical: false, verb: "Play", run: playReel,
-      title: () => "ConConAI — Showreel",
-      poster: () => "assets/img/showreel.jpg",
-      meta: "Product promo · 00:24",
-      keys: CATS.promo.keys + " showreel reel conconai",
-    },
-    ...$$("[data-cat]").map((node) => {
-      const still = node.classList.contains("still");
-      const cat = CATS[node.dataset.cat];
-      return {
-        cat: node.dataset.cat,
-        vertical: Boolean($(".media--9x16", node)),
-        verb: still ? "View" : "Play",
-        run: () => (still ? node : $(".media__btn", node)).click(),
-        title: () => node.dataset.title,
-        poster: () => $("img", node).getAttribute("src"),
-        meta: [cat.label, $(".media__tc", node)?.textContent, $(".media__lang", node)?.textContent].filter(Boolean).join(" · "),
-        keys: cat.keys,
-      };
-    }),
-  ];
-
-  /* ---------- finder: pick a need, see the matching work ---------- */
-  const NEEDS = {
-    crypto: {
-      blurb: "Vertical explainers that turn charts and headlines into something people watch to the end.",
-      points: ["Animated charts, data cards and kinetic captions", "Localised per market — English, Spanish, German", "9:16 exports ready for TikTok, Reels and Shorts"],
-      more: ["#work-crypto", "See all crypto work"],
-      choice: "Crypto content",
-    },
-    promo: {
-      blurb: "Launch films and app promos that make a product feel inevitable in under a minute.",
-      points: ["UI animation, 3D camera moves and kinetic type", "Built around your brand colours and voice", "16:9 master plus cut-downs for social"],
-      more: ["#work-promos", "See all promos"],
-      choice: "Motion graphics",
-    },
-    thumb: {
-      blurb: "High-contrast thumbnails designed alongside the edit, so the click and the video tell one story.",
-      points: ["Readable at phone size in a crowded feed", "Tailored to each channel’s identity", "Variants for A/B testing on request"],
-      more: ["#work-thumbs", "See the thumbnails"],
-      choice: "Thumbnails",
-    },
-    web: {
-      blurb: "Fast, hand-coded websites from someone who also understands the content that goes on them.",
-      points: ["Responsive, accessible and quick to load", "Motion and interaction that serve the story", "This site is the live example"],
-      more: ["#services", "Read about the service"],
-      choice: "Website",
-      links: [
-        ["Spotify UI build", "Live demo ↗", "https://com-spotifyweb-desig.netlify.app/"],
-        ["Code for this site", "GitHub ↗", "https://github.com/Bobzycruiz/Portf_retouch"],
-      ],
-    },
-  };
-  const finderPanel = $("#finder-panel");
-  const finderTabs = $$(".finder__tabs [role=tab]");
-  let need = "crypto";
-
-  const renderFinder = () => {
-    const n = NEEDS[need];
-    $(".finder__blurb", finderPanel).textContent = n.blurb;
-    $(".finder__list", finderPanel).replaceChildren(...n.points.map((t) => el("li", { textContent: t })));
-    const more = $("[data-finder-more]", finderPanel);
-    more.setAttribute("href", n.more[0]);
-    $("span", more).textContent = n.more[1];
-    const cards = n.links
-      ? n.links.map(([title, kind, href]) =>
-          el("a", { className: "finder__ex finder__ex--link", href, target: "_blank", rel: "noopener" }, el("small", { textContent: kind }), el("b", { textContent: title })))
-      : catalogue.filter((c) => c.cat === need).map((c) => {
-          const card = el("button", { type: "button", className: `finder__ex finder__ex--${c.vertical ? "v" : "h"}` },
-            el("img", { src: c.poster(), alt: "", loading: "lazy" }), el("span", { textContent: c.title() }));
-          card.setAttribute("aria-label", `${c.verb}: ${c.title()}`);
-          card.dataset.cursor = c.verb;
-          card.addEventListener("click", c.run);
-          return card;
-        });
-    cards.forEach((c, i) => c.style.setProperty("--i", i));
-    $(".finder__examples", finderPanel).replaceChildren(...cards);
-  };
-
-  const selectNeed = (key, focus) => {
-    if (key === need) return;
-    need = key;
-    finderTabs.forEach((t) => {
-      const on = t.dataset.need === key;
-      t.setAttribute("aria-selected", String(on));
-      t.tabIndex = on ? 0 : -1;
-      if (on) finderPanel.setAttribute("aria-labelledby", t.id);
-      if (on && focus) t.focus();
-    });
-    if (reduceMotion) return renderFinder();
-    finderPanel.classList.add("is-swapping");
-    setTimeout(() => {
-      renderFinder();
-      void finderPanel.offsetWidth; // flush so the new content animates in
-      finderPanel.classList.remove("is-swapping");
-    }, 220);
-  };
-  finderTabs.forEach((t, i) => {
-    t.tabIndex = i ? -1 : 0;
-    t.addEventListener("click", () => selectNeed(t.dataset.need));
-    t.addEventListener("keydown", (e) => {
-      const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
-      if (!step) return;
-      e.preventDefault();
-      selectNeed(finderTabs[(i + step + finderTabs.length) % finderTabs.length].dataset.need, true);
-    });
-  });
-  $("[data-finder-start]").addEventListener("click", () => {
-    const radio = $(`input[name="project_type"][value="${NEEDS[need].choice}"]`);
-    if (radio) radio.checked = true;
-  });
-  renderFinder();
-
-  /* ---------- palette: search work, sections and actions ---------- */
-  const palette = $("#palette");
-  const pInput = $("#palette-input");
-  const pList = $("#palette-list");
   const jump = (hash) => () => $(hash).scrollIntoView();
   const entries = [
-    ...catalogue.map((c) => ({ group: "Work", ...c })),
+    ...projects.map((tile) => ({
+      group: "Work",
+      title: () => tile.dataset.title,
+      poster: () => $("img", tile).getAttribute("src"),
+      meta: tile.dataset.meta,
+      keys: KEYS[tile.dataset.cat],
+      run: () => $(".tile__btn", tile).click(),
+    })),
     ...[
-      ["What are you looking for?", "#finder", "finder start need help choose"],
-      ["Work", "#work", "portfolio projects videos"],
-      ["Services", "#services", "services offer pricing what i do"],
-      ["Process", "#process", "process how it works steps"],
+      ["Work", "#work", "portfolio projects videos wall"],
+      ["Services", "#services", "services offer what i do process how"],
       ["About", "#about", "about bio bobola who"],
       ["Contact", "#contact", "contact hire message form"],
     ].map(([t, hash, keys]) => ({ group: "Go to", glyph: "→", title: () => t, meta: "Section", run: jump(hash), keys })),
-    { group: "Actions", glyph: "✦", title: () => "WhatsApp me", meta: "+234 808 081 1089", keys: "whatsapp chat phone call hire", run: () => open("https://wa.me/2348080811089", "_blank", "noopener") },
+    { group: "Actions", glyph: "✦", title: () => "WhatsApp me", meta: "+234 808 081 1089", keys: "whatsapp chat phone hire", run: () => open("https://wa.me/2348080811089", "_blank", "noopener") },
     { group: "Actions", glyph: "✦", title: () => "Email me", meta: EMAIL, keys: "email mail hire contact", run: () => (location.href = `mailto:${EMAIL}`) },
-    { group: "Actions", glyph: "✦", title: () => "Copy email address", meta: EMAIL, keys: "copy email clipboard", run: () => navigator.clipboard.writeText(EMAIL).then(() => toast("Email address copied"), () => toast(EMAIL)) },
-    { group: "Actions", glyph: "✦", title: () => "Download CV", meta: "PDF", keys: "cv resume download pdf", run: () => el("a", { href: "assets/Bobola_Alabi_Video_Editor_CV.pdf", download: "" }).click() },
+    { group: "Actions", glyph: "✦", title: () => "Copy email address", meta: EMAIL, keys: "copy email clipboard", run: copyEmail },
+    { group: "Actions", glyph: "✦", title: () => "Download CV", meta: "PDF", keys: "cv resume download pdf", run: () => make("a", { href: "assets/Bobola_Alabi_Video_Editor_CV.pdf", download: "" }).click() },
   ];
+  const palette = $("#palette");
+  const pInput = $("#palette-input");
+  const pList = $("#palette-list");
   let pShown = [];
   let pIndex = 0;
 
@@ -649,7 +425,12 @@
       }
     });
   };
-
+  const runEntry = (i) => {
+    const entry = pShown[i];
+    if (!entry) return;
+    palette.close();
+    entry.run();
+  };
   const renderPalette = () => {
     const tokens = pInput.value.toLowerCase().split(/\s+/).filter(Boolean);
     pShown = entries.filter((e) => {
@@ -659,26 +440,19 @@
     const rows = [];
     let group = "";
     pShown.forEach((e, i) => {
-      if (e.group !== group) rows.push(el("div", { className: "palette__group", textContent: (group = e.group) }));
-      const thumb = e.poster ? el("img", { className: "palette__thumb", src: e.poster(), alt: "" }) : el("span", { className: "palette__thumb", textContent: e.glyph });
-      const row = el("button", { type: "button", className: "palette__item", id: `palette-item-${i}` }, thumb,
-        el("span", { className: "palette__text" }, el("b", { textContent: e.title() }), el("small", { textContent: e.meta })),
-        el("span", { className: "palette__go", textContent: "↵" }));
+      if (e.group !== group) rows.push(make("div", { className: "palette__group", textContent: (group = e.group) }));
+      const thumb = e.poster ? make("img", { className: "palette__thumb", src: e.poster(), alt: "" }) : make("span", { className: "palette__thumb", textContent: e.glyph });
+      const row = make("button", { type: "button", className: "palette__item", id: `palette-item-${i}` }, thumb,
+        make("span", { className: "palette__text" }, make("b", { textContent: e.title() }), make("small", { textContent: e.meta })),
+        make("span", { className: "palette__go", textContent: "↵" }));
       row.setAttribute("role", "option");
       row.addEventListener("pointermove", () => i !== pIndex && markSelected(i));
       row.addEventListener("click", () => runEntry(i));
       rows.push(row);
     });
-    if (!pShown.length) rows.push(el("p", { className: "palette__empty", textContent: "Nothing matches — try “crypto”, “promo”, “thumbnail” or “contact”." }));
+    if (!pShown.length) rows.push(make("p", { className: "palette__empty", textContent: "Nothing matches — try “crypto”, “promo”, “thumbnail” or “contact”." }));
     pList.replaceChildren(...rows);
     markSelected(0);
-  };
-
-  const runEntry = (i) => {
-    const entry = pShown[i];
-    if (!entry) return;
-    palette.close();
-    entry.run();
   };
   const openPalette = () => {
     if (palette.open || player.open) return;
@@ -714,100 +488,50 @@
     }
   });
 
-  /* ---------- timeline dock: the page as an edit ---------- */
-  const dock = $(".dock");
-  const dockRuler = $(".dock__ruler");
-  const dockTc = $(".dock__tc");
-  const progressEl = $(".progress");
-  const dockSections = [["top", "Intro"], ["finder", "Find"], ["work", "Work"], ["services", "Services"], ["process", "Process"], ["about", "About"], ["contact", "Contact"]];
-  const dockClips = dockSections.map(([id, label]) => el("a", { className: "dock__clip", href: `#${id}`, textContent: label }));
-  $(".dock__clips").append(...dockClips);
-  let dockStops = [];
-  const maxScroll = () => Math.max(1, root.scrollHeight - innerHeight);
+  /* ---------- clock + year ---------- */
+  const clock = $("#clock");
+  const fmt = new Intl.DateTimeFormat("en-GB", { hour: "2-digit", minute: "2-digit", timeZone: "Africa/Lagos" });
+  const setClock = () => (clock.textContent = `${fmt.format(new Date())} (GMT+1)`);
+  setClock();
+  setInterval(setClock, 30000);
+  $("#year").textContent = new Date().getFullYear();
 
-  function layoutDock() {
-    const max = maxScroll();
-    dockStops = dockSections.map(([id], i) => (i ? clamp(($(`#${id}`).getBoundingClientRect().top + scrollY - 100) / max) : 0));
-    dockClips.forEach((c, i) => (c.style.flex = `${Math.max(0.03, (dockStops[i + 1] ?? 1) - dockStops[i])} 1 0`));
-    requestFrame();
-  }
-
-  function interactiveFrame() {
-    const max = maxScroll();
-    const p = clamp(scrollY / max);
-    progressEl.style.setProperty("--p", p.toFixed(4));
-    if (!root.classList.contains("fx-dock")) return;
-    dock.style.setProperty("--p", p.toFixed(4));
-    const pastHero = hero.getBoundingClientRect().bottom < innerHeight * 1.1;
-    dock.classList.toggle("is-on", scrubbing || (pastHero && scrollY < max - 60));
-    let active = 0;
-    dockStops.forEach((s, i) => p >= s - 0.004 && (active = i));
-    dockClips.forEach((c, i) => {
-      c.classList.toggle("is-on", i === active);
-      c.classList.toggle("is-done", i < active);
+  /* ---------- contact form (Netlify Forms, with an email fallback so no message is lost) ---------- */
+  const form = $("#contact-form");
+  const status = $(".form__status", form);
+  const emailFallback = (data) => {
+    const body = `${data.get("message")}\n\n— ${data.get("name")} (${data.get("email")})\nProject: ${data.get("project_type")}`;
+    return make("a", {
+      className: "link",
+      href: `mailto:${EMAIL}?subject=${encodeURIComponent("Project enquiry — " + data.get("project_type"))}&body=${encodeURIComponent(body)}`,
+      textContent: "Tap here to send it by email instead",
     });
-    const t = p * 120; // the whole page reads as a two-minute cut
-    dockTc.textContent = `${pad(Math.floor(t / 60))}:${pad(Math.floor(t) % 60)}:${pad(Math.floor((t % 1) * 25))}`;
-    dockRuler.setAttribute("aria-valuenow", Math.round(p * 100));
-  }
-
-  const scrubTo = (e) => {
-    const r = dockRuler.getBoundingClientRect();
-    scrollTo({ top: clamp((e.clientX - r.left) / r.width) * maxScroll(), behavior: "instant" });
   };
-  let scrubbing = false;
-  dockRuler.addEventListener("pointerdown", (e) => {
-    scrubbing = true;
-    try { dockRuler.setPointerCapture(e.pointerId); } catch {}
-    scrubTo(e);
-  });
-  dockRuler.addEventListener("pointermove", (e) => scrubbing && scrubTo(e));
-  ["pointerup", "pointercancel"].forEach((type) => dockRuler.addEventListener(type, () => (scrubbing = false)));
-  dockRuler.addEventListener("keydown", (e) => {
-    const dir = { ArrowRight: 1, ArrowUp: 1, ArrowLeft: -1, ArrowDown: -1 }[e.key];
-    if (!dir) return;
+  form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    scrollBy({ top: dir * maxScroll() * 0.04, behavior: "instant" });
+    const btn = $("button[type=submit]", form);
+    const label = $("span", btn);
+    const data = new FormData(form);
+    btn.disabled = true;
+    label.textContent = "Sending…";
+    status.className = "form__status mono";
+    status.textContent = "";
+    try {
+      const res = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(data).toString(),
+      });
+      if (!res.ok) throw new Error(res.status);
+      form.reset();
+      status.classList.add("ok");
+      status.textContent = "Message sent — I’ll get back to you within 24 hours.";
+    } catch {
+      status.classList.add("err");
+      status.append("Couldn’t send right now — your message is still here. ", emailFallback(data), ".");
+    } finally {
+      btn.disabled = false;
+      label.textContent = "Send message";
+    }
   });
-  layoutDock();
-  addEventListener("load", layoutDock);
-  addEventListener("resize", layoutDock);
-  desktopMQ.addEventListener("change", layoutDock);
-
-  /* ---------- reactive cursor: says what a click will do ---------- */
-  $$(".media__btn").forEach((b) => (b.dataset.cursor = "Play"));
-  $$(".still").forEach((b) => (b.dataset.cursor = "View"));
-  $(".lens__frame").dataset.cursor = "Play";
-  $(".lens__play").dataset.cursor = "";
-  dockRuler.dataset.cursor = "Drag";
-
-  if (finePointer && !reduceMotion) {
-    root.classList.add("has-cursor");
-    const cursor = $(".cursor");
-    const cursorLabel = $("span", cursor);
-    let cx = 0, cy = 0, tx = 0, ty = 0, moving = false;
-    const follow = () => {
-      cx = lerp(cx, tx, 0.24);
-      cy = lerp(cy, ty, 0.24);
-      cursor.style.transform = `translate3d(${cx.toFixed(1)}px, ${cy.toFixed(1)}px, 0)`;
-      moving = Math.abs(tx - cx) + Math.abs(ty - cy) > 0.3;
-      if (moving) requestAnimationFrame(follow);
-    };
-    addEventListener("pointermove", (e) => {
-      if (e.pointerType !== "mouse") return;
-      tx = e.clientX;
-      ty = e.clientY;
-      if (!moving) {
-        moving = true;
-        requestAnimationFrame(follow);
-      }
-      const text = e.target.closest?.("[data-cursor]")?.dataset.cursor;
-      cursor.classList.toggle("is-active", Boolean(text));
-      if (text) cursorLabel.textContent = text;
-    }, { passive: true });
-    addEventListener("pointerdown", () => cursor.classList.add("is-down"));
-    addEventListener("pointerup", () => cursor.classList.remove("is-down"));
-    root.addEventListener("mouseleave", () => cursor.classList.remove("is-active"));
-    addEventListener("scroll", () => cursor.classList.remove("is-active"), { passive: true });
-  }
 })();
